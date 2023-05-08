@@ -11,10 +11,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kk</groupId>
-    <artifactId>api-parent</artifactId>
+    <artifactId>kk-api-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>api-parent</name>
+    <name>kk-api-parent</name>
 
     <packaging>pom</packaging>
     <properties>
@@ -23,6 +23,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <io.springfox.version>3.0.0</io.springfox.version>
         <commons-io.version>2.6</commons-io.version>
+        <commons-fileupload.version>1.4</commons-fileupload.version>
         <net.sf.dozer.version>5.5.1</net.sf.dozer.version>
         <log4j2-t.version>2.17.0</log4j2-t.version>
         <com.alibaba.fastjson.version>1.2.15</com.alibaba.fastjson.version>
@@ -171,7 +172,7 @@
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <name>Local Nexus Repository</name>
-            <url>http://nexus.dev.com/repository/maven-snapshots/</url>
+            <url>http://nexus.dev.com/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <build>

@@ -10,10 +10,10 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.kk</groupId>
-  <artifactId>common</artifactId>
+  <artifactId>kk-common</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>common</name>
+  <name>kk-common</name>
 
 
   <properties>

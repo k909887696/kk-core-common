@@ -11,10 +11,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kk</groupId>
-    <artifactId>common-parent</artifactId>
+    <artifactId>kk-common-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>common-parent</name>
+    <name>kk-common-parent</name>
 
     <packaging>pom</packaging>
     <properties>
