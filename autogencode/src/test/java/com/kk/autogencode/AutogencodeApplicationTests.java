@@ -1,23 +1,15 @@
 package com.kk.autogencode;
 
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
-import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.github.jeffreyning.mybatisplus.service.IMppService;
 import com.github.jeffreyning.mybatisplus.service.MppServiceImpl;
 import com.kk.common.dao.mapper.RootMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 
 class AutogencodeApplicationTests {
@@ -69,10 +61,11 @@ class AutogencodeApplicationTests {
         tables.add("index_daily");
         tables.add("collection_task");
         tables.add("collection_task_history");*/
-        tables.add("daily");
-        tables.add("cn_m");
-        tables.add("concept");
+        //tables.add("daily");
+        //tables.add("cn_m");
+        //tables.add("concept");
         tables.add("stock_basic");
+        tables.add("collection_task");
         FastAutoGenerator.create("jdbc:mysql://192.168.90.126:3309/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true",
                 "hotel","^d4DD8$g,uccDB=F")
                 .globalConfig(builder -> {
@@ -81,6 +74,7 @@ class AutogencodeApplicationTests {
                             .enableSwagger()           //开启swagger
                             .dateType(DateType.ONLY_DATE)
                             .commentDate("yyyy-MM-dd")
+
                             .fileOverride();            //开启覆盖之前生成的文件
 
                 })
@@ -93,6 +87,7 @@ class AutogencodeApplicationTests {
                             .controller("controller")
                             .mapper("dao.mapper")
                             .xml("mapper")
+                            .other("model")
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml,System.getProperty("user.dir")+"\\src\\main\\resources\\mapper"));
                 })
                 .strategyConfig(builder -> {
@@ -105,7 +100,7 @@ class AutogencodeApplicationTests {
                             .superServiceClass(IMppService.class)
                             .superServiceImplClass(MppServiceImpl.class)
                             .entityBuilder()
-                            //.enableLombok()
+                            .enableLombok()
                             //.logicDeleteColumnName("deleted")
                             .enableTableFieldAnnotation()
 
@@ -113,11 +108,13 @@ class AutogencodeApplicationTests {
 
                             .formatFileName("%sController")
                             .enableRestStyle()
-                            .mapperBuilder()
+                            .mapperBuilder().enableBaseColumnList().enableBaseResultMap()
                             .superClass(RootMapper.class)
                             .formatMapperFileName("%sMapper")
+
                             //.enableMapperAnnotation()
-                            .formatXmlFileName("%sMapper");
+                            .formatXmlFileName("%sMapper")
+                    ;
                 })
                 .templateConfig(builder -> {
                     builder.controller(CONTROLLER_TEMPLATE)
@@ -127,7 +124,29 @@ class AutogencodeApplicationTests {
                             .serviceImpl(SERVICE_IMPL_TEMPLATE)
                             .mapperXml(XML_TEMPLATE);
                 })
-                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+
+                .templateEngine(new EnhanceFreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+                .injectionConfig(builder -> {
+                    /**自定义生成模板参数**/
+                    Map<String,Object> paramMap = new HashMap<>();
+
+                    /** 自定义 生成类**/
+                    Map<String,String> customFileMap = new HashMap<>();
+                    /**PO实体**/
+
+                    /**Vo实体**/
+                    customFileMap.put("vo"+File.separator+"%sListVo.java", "/templates/listvo.java.ftl");
+                    customFileMap.put("vo"+File.separator+"%sAddVo.java", "/templates/addvo.java.ftl");
+                    customFileMap.put("vo"+File.separator+"%sEditVo.java", "/templates/editvo.java.ftl");
+                    /**DTO实体**/
+                    customFileMap.put("dto"+File.separator+"%sDto.java", "/templates/dto.java.ftl");
+                    customFileMap.put("dto"+File.separator+"%sListDto.java", "/templates/listdto.java.ftl");
+                    builder.customMap(paramMap)
+                            .customFile(customFileMap);
+                })
                 .execute();
     }
+
+
+
 }

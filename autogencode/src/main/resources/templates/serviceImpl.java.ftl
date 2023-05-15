@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kk.common.base.model.PageResult;
 import com.kk.common.base.model.BasePage;
+import ${package.Other}.vo.${entity}ListVo;
 /**
  * <p>
  * ${table.comment!} 服务实现类
@@ -58,12 +59,13 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     * @param vo 请求参数
     * @return 结果集
     */
-    public PageResult<${entity}>  get${entity}PageResult(BasePage vo){
+    public PageResult<${entity}>  get${entity}PageResult(${entity}ListVo vo){
 
         LambdaQueryWrapper<${entity}> query = new LambdaQueryWrapper<>();
         IPage<${entity}> page = new Page<>(vo.getPageIndex(),vo.getPageSize());
 
         //这里开始编写查询条件
+
 
         page = mapper.selectPage(page,query);
         PageResult<${entity}>  pageResult = new PageResult<>();

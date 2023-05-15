@@ -29,11 +29,44 @@
 <#if baseColumnList>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-<#list table.commonFields as field>
-        ${field.columnName},
+<#list table.fields as field>
+        ${field.name} as '${field.propertyName}',
 </#list>
-        ${table.fieldNames}
+
+    </sql>
+    <!-- 通用查询条件 -->
+    <sql id="BaseWhere">
+        <trim prefix="where" prefixOverrides="and | or">
+        <#list table.fields as field>
+           <#if field.propertyName ?contains("name")>
+           <if test="${entity?uncap_first}ListVo.${field.propertyName} != null and ${entity?uncap_first}ListVo.${field.propertyName} != ''">
+               and ${field.name} like concat('%',#${r"{"}${entity?uncap_first}ListVo.${field.propertyName}${r"}"},'%')
+           </if>
+           <#elseif field.propertyType == "Date">
+           <if test="${entity?uncap_first}ListVo.${field.propertyName}Start != null and ${entity?uncap_first}ListVo.${field.propertyName}Start != ''">
+               and ${field.name} >= #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}Start${r"}"}
+           </if>
+           <if test="${entity?uncap_first}ListVo.${field.propertyName}End != null and ${entity?uncap_first}ListVo.${field.propertyName}End != ''">
+               and ${field.name} <= #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}End${r"}"}
+           </if>
+           <#else>
+           <if test="${entity?uncap_first}ListVo.${field.propertyName} != null and ${entity?uncap_first}ListVo.${field.propertyName} != ''">
+               and ${field.name} = #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}${r"}"}
+           </if>
+           </#if>
+        </#list>
+        </trim>
     </sql>
 
+    <!-- 分页查询 -->
+    <select id="selectPageList" resultType="${package.Other}.dto.${entity}ListDto">
+        select <include refid="BaseColumnList"/>
+        from ${table.name}
+        <include refid="BaseWhere"/>
+
+    </select>
+
 </#if>
+
+
 </mapper>
