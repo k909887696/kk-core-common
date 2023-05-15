@@ -13,8 +13,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kk.common.base.model.PageResult;
-import com.kk.common.base.model.BasePage;
 import ${package.Other}.vo.${entity}ListVo;
+import ${package.Other}.dto.${entity}ListDto;
+import ${package.Other}.vo.${entity}AddVo;
+import ${package.Other}.vo.${entity}EditVo;
+import ${package.Other}.dto.${entity}Dto;
 /**
  * <p>
  * ${table.comment!} 服务实现类
@@ -32,7 +35,9 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
     @Resource
-    public ${table.mapperName} mapper;
+    public ${table.mapperName} ${table.mapperName?uncap_first};
+    @Resource
+    public MapperUtils mapperUtils;
     /**
     * 分批批量插入
     * @param list 数据列表
@@ -51,7 +56,55 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         for(;index<=totalPage;index++)
         {
             List<${entity}> tempList = list.stream().skip((index-1)*size).limit(size).collect(Collectors.toList());
-            mapper.insertIgnoreBatchSomeColumn(tempList);
+            ${table.mapperName?uncap_first}.insertIgnoreBatchSomeColumn(tempList);
+        }
+    }
+    /**
+    * 单条插入
+    * @param vo 请求参数
+    * @return 结果集
+    */
+    public void insert(${entity}AddVo vo)
+    {
+        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        ${table.mapperName?uncap_first}.insert(model);
+    }
+    /**
+    * 更新
+    * @param vo 请求参数
+    * @return 结果集
+    */
+    public int update(${entity}EditVo vo)
+    {
+        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        int r = ${table.mapperName?uncap_first}.updateById(model);
+        if(r != null)
+        {
+            throw new BusinessException("${table.comment!}更新失败!");
+        }
+    }
+    /**
+    * 单条查询
+    * @param vo 请求参数
+    * @return 结果集
+    */
+    public ${entity}Dto selectById(String id)
+    {
+        ${entity} model = ${table.mapperName?uncap_first}.selectById(id);
+        ${entity}Dto dto = mapperUtils.map(model,${entity}Dto.class);
+        return dto;
+    }
+    /**
+    * 删除
+    * @param vo 请求参数
+    * @return 结果集
+    */
+    public int deleteById(String id)
+    {
+        int r = ${table.mapperName?uncap_first}.deleteById(id);
+        if(r != null)
+        {
+            throw new BusinessException("${table.comment!}删除失败!");
         }
     }
     /**
@@ -59,16 +112,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     * @param vo 请求参数
     * @return 结果集
     */
-    public PageResult<${entity}>  get${entity}PageResult(${entity}ListVo vo){
+    public PageResult<${entity}ListDto>  selectPageList(${entity}ListVo vo){
 
-        LambdaQueryWrapper<${entity}> query = new LambdaQueryWrapper<>();
-        IPage<${entity}> page = new Page<>(vo.getPageIndex(),vo.getPageSize());
-
-        //这里开始编写查询条件
-
-
-        page = mapper.selectPage(page,query);
-        PageResult<${entity}>  pageResult = new PageResult<>();
+        IPage<${entity}ListDto> page = new Page<>(vo.getPageIndex(),vo.getPageSize());
+        page = ${table.mapperName?uncap_first}.selectPageList(page,vo);
+        PageResult<${entity}ListDto>  pageResult = new PageResult<>();
 
         pageResult.setResult(page.getRecords());
         pageResult.setTotalCount(page.getTotal());
@@ -77,6 +125,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
         return pageResult;
     }
+
 
 
 }

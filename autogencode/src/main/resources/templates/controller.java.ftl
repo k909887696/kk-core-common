@@ -22,7 +22,11 @@ import javax.validation.Valid;
 import ${package.Service}.${table.serviceName};
 import com.kk.common.web.model.ApiResult;
 import com.kk.common.base.model.PageResult;
-import com.kk.common.base.model.BasePage;
+import ${package.Other}.vo.${entity}ListVo;
+import ${package.Other}.dto.${entity}ListDto;
+import ${package.Other}.vo.${entity}AddVo;
+import ${package.Other}.vo.${entity}EditVo;
+import ${package.Other}.dto.${entity}Dto;
 import ${package.Entity}.${entity};
 /**
  * <p>
@@ -52,7 +56,7 @@ public class ${table.controllerName} {
 </#if>
 
     @Resource
-    public ${table.serviceName} service;
+    public ${table.serviceName} ${entity?uncap_first}Service;
 
     @ApiOperation("获取分页结果集")
     @ApiImplicitParams(  {
@@ -62,12 +66,82 @@ public class ${table.controllerName} {
     @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
     @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
     })
-    @PostMapping("/get_${table.name}_page_result")
-    public ApiResult< PageResult<${entity}> > get${entity}PageResult(@Valid @RequestBody BasePage vo)   {
+    @PostMapping("/get_${table.name}_page_list")
+    public ApiResult< PageResult<${entity}ListDto> > get${entity}PageList(@Valid @RequestBody ${entity}ListVo vo)   {
 
-        return new  ApiResult(service.get${entity}PageResult(vo));
+        return new  ApiResult(${entity?uncap_first}Service.selectPageList(vo));
 
     }
+    @ApiOperation("删除")
+    @ApiImplicitParams(  {
+    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
+    })
+    @PostMapping("/delete")
+    public ApiResult< String > get${entity}PageList(@Valid @RequestBody ${entity}ListVo vo)   {
+
+        return new  ApiResult(${entity?uncap_first}Service.selectPageList(vo));
+
+    }
+    @ApiOperation("插入")
+    @ApiImplicitParams(  {
+    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
+    })
+    @PostMapping("/insert")
+    public ApiResult< String > insert(@Valid @RequestBody ${entity}AddVo vo)   {
+
+        return new  ApiResult(${entity?uncap_first}Service.insert(vo));
+
+    }
+    @ApiOperation("更新")
+    @ApiImplicitParams(  {
+    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
+    })
+    @PostMapping("/update")
+    public ApiResult< String > update(@Valid @RequestBody ${entity}EditVo vo)   {
+
+        return new  ApiResult(${entity?uncap_first}Service.update(vo));
+
+    }
+    @ApiOperation("查询详情")
+    @ApiImplicitParams(  {
+    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
+    })
+    @PostMapping("/get_details")
+    public ApiResult< ${entity}Dto > getDetails(@Valid @RequestBody ${entity}ListVo vo)   {
+
+        return new  ApiResult(${entity?uncap_first}Service.selectById(vo));
+
+    }
+    @ApiOperation("获取分页结果集")
+    @ApiImplicitParams(  {
+    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
+    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
+    })
+    @PostMapping("/get_${table.name}_page_list")
+    public ApiResult< PageResult<${entity}ListDto> > get${entity}PageList(@Valid @RequestBody ${entity}ListVo vo)   {
+
+        return new  ApiResult(service.selectPageList(vo));
+    }
+
 
 }
 </#if>

@@ -5,7 +5,7 @@ import ${superMapperClassPackage};
 <#if mapperAnnotation>
 import org.apache.ibatis.annotations.Mapper;
 </#if>
-
+import ${package.Other}.dto.${entity}ListDto;
 /**
  * <p>
  * ${table.comment!} Mapper 接口
@@ -21,6 +21,9 @@ import org.apache.ibatis.annotations.Mapper;
 interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
-
+     /**
+     * 查询列表
+     */
+     Page selectPageList(IPage page, ${entity}ListVo ${entity?uncap_first}ListVo);
 }
 </#if>
