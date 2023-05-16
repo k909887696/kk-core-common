@@ -1,23 +1,26 @@
 package ${package.ServiceImpl};
 
-import ${package.Entity}.${entity};
-import ${package.Mapper}.${table.mapperName};
-import ${package.Service}.${table.serviceName};
-import ${superServiceImplClassPackage};
+
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kk.common.base.model.PageResult;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
 import ${package.Other}.vo.${entity}ListVo;
 import ${package.Other}.dto.${entity}ListDto;
 import ${package.Other}.vo.${entity}AddVo;
 import ${package.Other}.vo.${entity}EditVo;
 import ${package.Other}.dto.${entity}Dto;
+import ${package.Other}.vo.${entity}DetailsVo;
+import ${package.Other}.vo.${entity}DeleteVo;
+<#list customImplNamespace as imp>
+import ${imp};
+</#list>
 /**
  * <p>
  * ${table.comment!} 服务实现类
@@ -34,8 +37,6 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 <#else>
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
-    @Resource
-    public ${table.mapperName} ${table.mapperName?uncap_first};
     @Resource
     public MapperUtils mapperUtils;
     /**
@@ -56,7 +57,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         for(;index<=totalPage;index++)
         {
             List<${entity}> tempList = list.stream().skip((index-1)*size).limit(size).collect(Collectors.toList());
-            ${table.mapperName?uncap_first}.insertIgnoreBatchSomeColumn(tempList);
+            this.baseMapper.insertIgnoreBatchSomeColumn(tempList);
         }
     }
     /**
@@ -67,7 +68,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public void insert(${entity}AddVo vo)
     {
         ${entity} model = mapperUtils.map(vo,${entity}.class);
-        ${table.mapperName?uncap_first}.insert(model);
+        this.baseMapper.insert(model);
     }
     /**
     * 更新
@@ -77,21 +78,23 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public int update(${entity}EditVo vo)
     {
         ${entity} model = mapperUtils.map(vo,${entity}.class);
-        int r = ${table.mapperName?uncap_first}.updateById(model);
-        if(r != null)
+        int r = this.baseMapper.updateById(model);
+        if(r != 1)
         {
             throw new BusinessException("${table.comment!}更新失败!");
         }
+        return r;
     }
     /**
     * 单条查询
     * @param vo 请求参数
     * @return 结果集
     */
-    public ${entity}Dto selectById(String id)
+    public ${entity}Dto selectById(${entity}DetailsVo vo)
     {
-        ${entity} model = ${table.mapperName?uncap_first}.selectById(id);
-        ${entity}Dto dto = mapperUtils.map(model,${entity}Dto.class);
+        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        ${entity} res = this.baseMapper.selectByMultiId(model);
+        ${entity}Dto dto = mapperUtils.map(res,${entity}Dto.class);
         return dto;
     }
     /**
@@ -99,13 +102,15 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     * @param vo 请求参数
     * @return 结果集
     */
-    public int deleteById(String id)
+    public int deleteById(${entity}DeleteVo vo)
     {
-        int r = ${table.mapperName?uncap_first}.deleteById(id);
-        if(r != null)
+        ${entity} model = mapperUtils.map(vo,${entity}.class);
+        int r = this.baseMapper.deleteByMultiId(model);
+        if(r != 1)
         {
             throw new BusinessException("${table.comment!}删除失败!");
         }
+        return r;
     }
     /**
     * 分页获取结果集
@@ -115,7 +120,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public PageResult<${entity}ListDto>  selectPageList(${entity}ListVo vo){
 
         IPage<${entity}ListDto> page = new Page<>(vo.getPageIndex(),vo.getPageSize());
-        page = ${table.mapperName?uncap_first}.selectPageList(page,vo);
+        page = this.baseMapper.selectPageList(page,vo);
         PageResult<${entity}ListDto>  pageResult = new PageResult<>();
 
         pageResult.setResult(page.getRecords());

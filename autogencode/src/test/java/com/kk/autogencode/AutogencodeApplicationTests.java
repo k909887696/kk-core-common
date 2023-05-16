@@ -61,12 +61,16 @@ class AutogencodeApplicationTests {
         tables.add("index_daily");
         tables.add("collection_task");
         tables.add("collection_task_history");*/
+        tables.add("cn_m");
+        tables.add("concept");
+        tables.add("concept_daily");
+        tables.add("concept_detail");
+        tables.add("concept_money_flow");
         tables.add("daily");
-        tables.add("stock_basic");
-        tables.add("collection_task");
+
         FastAutoGenerator.
-                //create("jdbc:mysql://192.168.90.126:3309/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","hotel","^d4DD8$g,uccDB=F")
-                 create("jdbc:mysql://192.168.2.235:3306/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","root","-random8201227")
+                create("jdbc:mysql://192.168.90.126:3309/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","hotel","^d4DD8$g,uccDB=F")
+                 //create("jdbc:mysql://192.168.2.235:3306/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","root","-random8201227")
                 .globalConfig(builder -> {
                     builder.author("kk")               //作者
                             .outputDir(System.getProperty("user.dir")+"\\src\\main\\java")    //输出路径(写到java目录)
@@ -128,6 +132,15 @@ class AutogencodeApplicationTests {
                 .injectionConfig(builder -> {
                     /**自定义生成模板参数**/
                     Map<String,Object> paramMap = new HashMap<>();
+                    List<String> customImplNamespace = new ArrayList<>();
+                    customImplNamespace.add("com.kk.common.utils.MapperUtils");
+                    customImplNamespace.add("com.kk.common.base.model.PageResult");
+                    customImplNamespace.add("com.kk.common.exception.BusinessException");
+
+                    paramMap.put("customImplNamespace",customImplNamespace);
+                    List<String> customServiceNamespace = new ArrayList<>();
+                    customServiceNamespace.add("com.kk.common.base.model.PageResult");
+                    paramMap.put("customServiceNamespace",customServiceNamespace);
 
                     /** 自定义 生成类**/
                     Map<String,String> customFileMap = new HashMap<>();

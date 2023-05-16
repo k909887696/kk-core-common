@@ -28,9 +28,9 @@
 </#if>
 <#if baseColumnList>
     <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
+    <sql id="BaseColumnList">
 <#list table.fields as field>
-        ${field.name} as '${field.propertyName}',
+        ${field.name} as '${field.propertyName}'<#if field_has_next>,</#if>
 </#list>
 
     </sql>

@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * ${table.comment!}详情实体
+ * ${table.comment!}删除实体
  * </p>
  *
  * @author ${author}
@@ -29,19 +29,16 @@ import lombok.experimental.Accessors;
     </#if>
 </#if>
 <#if swagger>
-@ApiModel(value = "${table.comment!}新增实体", description = "${table.comment!}")
+@ApiModel(value = "${table.comment!}删除实体", description = "${table.comment!}")
 </#if>
-public class ${entity}AddVo implements Serializable {
+public class ${entity}DeleteVo implements Serializable {
 
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
 </#if>
-
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
     <#if field.keyFlag>
-
-
     <#if field.comment!?length gt 0>
         <#if swagger>
     /**

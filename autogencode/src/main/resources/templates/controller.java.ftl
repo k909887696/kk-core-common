@@ -26,6 +26,8 @@ import ${package.Other}.vo.${entity}ListVo;
 import ${package.Other}.dto.${entity}ListDto;
 import ${package.Other}.vo.${entity}AddVo;
 import ${package.Other}.vo.${entity}EditVo;
+import ${package.Other}.vo.${entity}DetailsVo;
+import ${package.Other}.vo.${entity}DeleteVo;
 import ${package.Other}.dto.${entity}Dto;
 import ${package.Entity}.${entity};
 /**
@@ -37,7 +39,7 @@ import ${package.Entity}.${entity};
  * @since ${date}
  */
 <#if swagger>
- @Api(value = "<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}",tags = "${table.comment!}")
+@Api(value = "<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}",tags = "${table.comment!}")
 </#if>
 @ResponseBody
 <#if restControllerStyle>
@@ -81,9 +83,9 @@ public class ${table.controllerName} {
     @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
     })
     @PostMapping("/delete")
-    public ApiResult< String > get${entity}PageList(@Valid @RequestBody ${entity}ListVo vo)   {
-
-        return new  ApiResult(${entity?uncap_first}Service.selectPageList(vo));
+    public ApiResult<?> get${entity}PageList(@Valid @RequestBody ${entity}DeleteVo vo)   {
+        ${entity?uncap_first}Service.deleteById(vo);
+        return ApiResult.SUCCESS;
 
     }
     @ApiOperation("插入")
@@ -95,9 +97,9 @@ public class ${table.controllerName} {
     @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
     })
     @PostMapping("/insert")
-    public ApiResult< String > insert(@Valid @RequestBody ${entity}AddVo vo)   {
-
-        return new  ApiResult(${entity?uncap_first}Service.insert(vo));
+    public ApiResult<?> insert(@Valid @RequestBody ${entity}AddVo vo)   {
+        ${entity?uncap_first}Service.insert(vo);
+        return ApiResult.SUCCESS;
 
     }
     @ApiOperation("更新")
@@ -109,9 +111,9 @@ public class ${table.controllerName} {
     @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
     })
     @PostMapping("/update")
-    public ApiResult< String > update(@Valid @RequestBody ${entity}EditVo vo)   {
-
-        return new  ApiResult(${entity?uncap_first}Service.update(vo));
+    public ApiResult<?> update(@Valid @RequestBody ${entity}EditVo vo)   {
+        ${entity?uncap_first}Service.update(vo);
+        return ApiResult.SUCCESS;
 
     }
     @ApiOperation("查询详情")
@@ -123,24 +125,12 @@ public class ${table.controllerName} {
     @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
     })
     @PostMapping("/get_details")
-    public ApiResult< ${entity}Dto > getDetails(@Valid @RequestBody ${entity}ListVo vo)   {
+    public ApiResult< ${entity}Dto > getDetails(@Valid @RequestBody ${entity}DetailsVo vo)   {
 
         return new  ApiResult(${entity?uncap_first}Service.selectById(vo));
 
     }
-    @ApiOperation("获取分页结果集")
-    @ApiImplicitParams(  {
-    @ApiImplicitParam(name = "token", value = "身份令牌", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "signature", value = "签名", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
-    @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
-    })
-    @PostMapping("/get_${table.name}_page_list")
-    public ApiResult< PageResult<${entity}ListDto> > get${entity}PageList(@Valid @RequestBody ${entity}ListVo vo)   {
 
-        return new  ApiResult(service.selectPageList(vo));
-    }
 
 
 }

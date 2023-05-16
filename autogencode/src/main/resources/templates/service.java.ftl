@@ -4,12 +4,16 @@ import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 
 import java.util.List;
-import com.kk.common.base.model.PageResult;
 import ${package.Other}.vo.${entity}ListVo;
 import ${package.Other}.dto.${entity}ListDto;
 import ${package.Other}.vo.${entity}AddVo;
 import ${package.Other}.vo.${entity}EditVo;
 import ${package.Other}.dto.${entity}Dto;
+import ${package.Other}.vo.${entity}DetailsVo;
+import ${package.Other}.vo.${entity}DeleteVo;
+<#list customServiceNamespace as imp>
+import ${imp};
+</#list>
 /**
  * <p>
  * ${table.comment!} 服务类
@@ -52,13 +56,13 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
     * @param vo 请求参数
     * @return 结果集
     */
-    ${entity}Dto selectById(String id);
+    ${entity}Dto selectById(${entity}DetailsVo vo);
     /**
     * 删除
     * @param vo 请求参数
     * @return 结果集
     */
-    int deleteById(String id);
+    int deleteById(${entity}DeleteVo vo);
 
 }
 </#if>

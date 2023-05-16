@@ -1,4 +1,4 @@
-package ${package.Other}.vo;
+package ${package.Other}.dto;
 
 <#list table.importPackages as pkg>
 import ${pkg};
@@ -36,7 +36,6 @@ public class ${entity}Dto implements Serializable {
 <#if entitySerialVersionUID>
     private static final long serialVersionUID = 1L;
 </#if>
-
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
     <#if field.keyFlag>
