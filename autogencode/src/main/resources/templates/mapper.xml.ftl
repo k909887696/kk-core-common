@@ -38,16 +38,16 @@
     <sql id="BaseWhere">
         <trim prefix="where" prefixOverrides="and | or">
         <#list table.fields as field>
-           <#if field.propertyName ?contains("name")>
+           <#if field.propertyName ?lower_case ?contains("name")>
            <if test="${entity?uncap_first}ListVo.${field.propertyName} != null and ${entity?uncap_first}ListVo.${field.propertyName} != ''">
                and ${field.name} like concat('%',#${r"{"}${entity?uncap_first}ListVo.${field.propertyName}${r"}"},'%')
            </if>
-           <#elseif field.propertyType == "Date">
+           <#elseif field.propertyType == "Date" || field.propertyName ?lower_case?contains("date") >
            <if test="${entity?uncap_first}ListVo.${field.propertyName}Start != null and ${entity?uncap_first}ListVo.${field.propertyName}Start != ''">
                and ${field.name} >= #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}Start${r"}"}
            </if>
            <if test="${entity?uncap_first}ListVo.${field.propertyName}End != null and ${entity?uncap_first}ListVo.${field.propertyName}End != ''">
-               and ${field.name} <= #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}End${r"}"}
+               and ${field.name} &lt;= #${r"{"}${entity?uncap_first}ListVo.${field.propertyName}End${r"}"}
            </if>
            <#else>
            <if test="${entity?uncap_first}ListVo.${field.propertyName} != null and ${entity?uncap_first}ListVo.${field.propertyName} != ''">

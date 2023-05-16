@@ -39,7 +39,7 @@ public class ${entity}ListVo extends BasePage{
 
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
-    <#if field.propertyType != "Date" >
+    <#if field.propertyType != "Date" && !field.propertyName ?lower_case?contains("date") >
     <#if field.keyFlag>
         <#assign keyPropertyName="${field.propertyName}"/>
     </#if>
