@@ -53,7 +53,7 @@ public class LogResponseAdvice implements ResponseBodyAdvice<Object> {
         String methodName = "";
         if (StringUtils.hasText(uri)) {
             String[] uris = uri.split("/");
-            methodName = uris[uris.length - 1];
+            methodName = uris[uris.length - 2] +";"+ uris[uris.length - 1];
         }
 
         this.log.info("{}| {} | 响应ip: {} | uri = {} | elapsed = {}ms | body = {} | {} ", new Object[]{DateUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss"), seqNo,  request.getRemoteAddress().getHostString(), uri, elapsed, bodyJson,methodName});
