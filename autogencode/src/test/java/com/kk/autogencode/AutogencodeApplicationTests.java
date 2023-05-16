@@ -39,7 +39,10 @@ class AutogencodeApplicationTests {
         tables.add("concept_detail");
         tables.add("concept_money_flow");
          tables.add("concept_daily");
-        tables.add("daily");
+        tables.add("daily");*/
+        tables.add("collection_policy");
+        tables.add("collection_task");
+        tables.add("collection_task_history");
         tables.add("daily_basic");
         tables.add("daily_time");
         tables.add("index_basic");
@@ -60,13 +63,8 @@ class AutogencodeApplicationTests {
         tables.add("weekly");
         tables.add("index_daily");
         tables.add("collection_task");
-        tables.add("collection_task_history");*/
-        tables.add("cn_m");
-        tables.add("concept");
-        tables.add("concept_daily");
-        tables.add("concept_detail");
-        tables.add("concept_money_flow");
-        tables.add("daily");
+        tables.add("collection_task_history");
+
 
         FastAutoGenerator.
                 //create("jdbc:mysql://192.168.90.126:3309/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","hotel","^d4DD8$g,uccDB=F")
@@ -155,6 +153,8 @@ class AutogencodeApplicationTests {
                     /**DTO实体**/
                     customFileMap.put("dto"+File.separator+"%sDto.java", "/templates/dto.java.ftl");
                     customFileMap.put("dto"+File.separator+"%sListDto.java", "/templates/listdto.java.ftl");
+                    /** APIJS **/
+                    customFileMap.put("js"+File.separator+"%s_api.js", "/templates/api.js.ftl");
                     builder.customMap(paramMap)
                             .customFile(customFileMap);
                 })
