@@ -50,9 +50,14 @@ public   class EnhanceFreemarkerTemplateEngine extends  AbstractTemplateEngine {
         String otherPath = this.getPathInfo(OutputFile.other);
         logger.info(otherPath);
         customFile.forEach((key, value) -> {
-            logger.info(String.format(otherPath + File.separator  , entityName));
-            String fileName = String.format(otherPath + File.separator +key , entityName);
-            this.outputFile(new File(fileName), objectMap, value);
+            if(key.toLowerCase().contains(".js") || key.toLowerCase().contains(".vue") || key.toLowerCase().contains(".html") || key.toLowerCase().contains(".htm"))
+            {
+                String fileName = String.format(System.getProperty("user.dir")+"\\src\\main\\resources" + File.separator + key, tableInfo.getName());
+                this.outputFile(new File(fileName), objectMap, value);
+            }else {
+                String fileName = String.format(otherPath + File.separator + key, entityName);
+                this.outputFile(new File(fileName), objectMap, value);
+            }
         });
     }
 
