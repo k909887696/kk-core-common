@@ -13,7 +13,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
     </#if>
 </#if>
-
+<#if mppMultiIdCount &gt; 1 >
+import com.github.jeffreyning.mybatisplus.anno.MppMultiId;
+</#if>
 /**
  * <p>
  * ${table.comment!}
@@ -66,13 +68,24 @@ public class ${entity} {
         </#if>
     </#if>
     <#if field.keyFlag>
+        <#if mppMultiIdCount <=1 >
         <#-- 主键 -->
-        <#if field.keyIdentityFlag>
+            <#if field.keyIdentityFlag>
     @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
-        <#elseif idType??>
+            <#elseif idType??>
     @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
-        <#elseif field.convert>
+            <#elseif field.convert>
     @TableId("${field.annotationColumnName}")
+            </#if>
+        <#else>
+        <#-- 主键 -->
+            <#if field.keyIdentityFlag>
+    @MppMultiId(value = "${field.annotationColumnName}", type = IdType.AUTO)
+            <#elseif idType??>
+    @MppMultiId(value = "${field.annotationColumnName}", type = IdType.${idType})
+            <#elseif field.convert>
+    @MppMultiId("${field.annotationColumnName}")
+            </#if>
         </#if>
         <#-- 普通字段 -->
     <#elseif field.fill??>

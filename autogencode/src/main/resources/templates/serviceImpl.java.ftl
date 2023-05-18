@@ -78,7 +78,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public int update(${entity}EditVo vo)
     {
         ${entity} model = mapperUtils.map(vo,${entity}.class);
+        <#if mppMultiIdCount <= 1 >
         int r = this.baseMapper.updateById(model);
+        <#else >
+        int r = this.baseMapper.updateByMultiId(model);
+        </#if>
         if(r != 1)
         {
             throw new BusinessException("${table.comment!}更新失败!");
@@ -93,7 +97,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public ${entity}Dto selectById(${entity}DetailsVo vo)
     {
         ${entity} model = mapperUtils.map(vo,${entity}.class);
+        <#if mppMultiIdCount <= 1>
+        ${entity} res = this.baseMapper.selectById(model);
+        <#else >
         ${entity} res = this.baseMapper.selectByMultiId(model);
+        </#if>
         ${entity}Dto dto = mapperUtils.map(res,${entity}Dto.class);
         return dto;
     }
@@ -105,7 +113,11 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     public int deleteById(${entity}DeleteVo vo)
     {
         ${entity} model = mapperUtils.map(vo,${entity}.class);
+        <#if mppMultiIdCount <= 1>
+        int r = this.baseMapper.deleteById(model);
+        <#else >
         int r = this.baseMapper.deleteByMultiId(model);
+        </#if>
         if(r != 1)
         {
             throw new BusinessException("${table.comment!}删除失败!");

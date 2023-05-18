@@ -3,6 +3,7 @@ package com.kk.autogencode;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import freemarker.template.Configuration;
@@ -95,6 +96,18 @@ public   class EnhanceFreemarkerTemplateEngine extends  AbstractTemplateEngine {
         objectMap.put("objectUtils", "com.zhanghp.common.utils.ObjectUtils");
         // 返回结果封装
         objectMap.put("r", "com.zhanghp.common.response.R");
+        int i=0;
+        for (TableField field: tableInfo.getFields()
+             ) {
+            if(field.isKeyFlag()){
+                i++;
+                //System.out.println(tableInfo.getComment()+":"+i);
+            }
+        }
+
+        objectMap.put("mppMultiIdCount", i);
+
+
         return objectMap;
     }
 

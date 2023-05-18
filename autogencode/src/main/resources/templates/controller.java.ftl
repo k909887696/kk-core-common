@@ -82,8 +82,8 @@ public class ${table.controllerName} {
     @ApiImplicitParam(name = "source", value = "来源（app/web/minotor）", paramType = "header", required = false, dataType = "String"),
     @ApiImplicitParam(name = "version", value = "版本号（1.0.0）", paramType = "header",  dataType = "String")
     })
-    @PostMapping("/delete")
-    public ApiResult<?> get${entity}PageList(@Valid @RequestBody ${entity}DeleteVo vo)   {
+    @PostMapping("/delete_by_id")
+    public ApiResult<?> deleteById(@Valid @RequestBody ${entity}DeleteVo vo)   {
         ${entity?uncap_first}Service.deleteById(vo);
         return ApiResult.SUCCESS;
 

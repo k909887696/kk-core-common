@@ -19,7 +19,7 @@ export function get_${table.name}_page_list(params, isLoading) {
 // 删除
 export function deleteById(params, isLoading) {
   return request({
-    url: config.${package.ModuleName}_api_url + '<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}/delete',
+    url: config.${package.ModuleName}_api_url + '<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}/delete_by_id',
     method: 'post',
     data: params,
     isLoading

@@ -14,12 +14,12 @@
                     </el-form-item>
                         <#elseif field.propertyName ?lower_case?contains("date") >
                     <el-form-item label="${field.comment}:">
-                        <el-date-picker v-model="listQuery.${field.propertyName}Start" type="date" format="yyyyMM-dd" value-format="yyyyMMdd" style="width: 150px;" placeholder="选择时间" /> -
+                        <el-date-picker v-model="listQuery.${field.propertyName}Start" type="date" format="yyyyMMdd" value-format="yyyyMMdd" style="width: 150px;" placeholder="选择时间" /> -
                         <el-date-picker v-model="listQuery.${field.propertyName}End" type="date" format="yyyyMMdd" value-format="yyyyMMdd" style="width: 150px;" placeholder="选择时间" />
                     </el-form-item>
                         <#else>
                     <el-form-item label="${field.comment}:">
-                         <el-input v-model="listQuery.${field.propertyName}" placeholder="${field.comment}" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+                         <el-input v-model="listQuery.${field.propertyName}" placeholder="${field.comment}" style="width: 300px;" class="filter-item" @keyup.enter.native="handleFilter" />
                     </el-form-item>
                         </#if>
                     <#if ((field_index+1) %4 ==0 && field_index > 0) || !field?has_next>
@@ -73,7 +73,7 @@
             </el-table-column>
                 </#if>
             </#list>
-            <el-table-column label="" align="center" width="200" class-name="small-padding fixed-width">
+            <el-table-column label="" align="center" width="200" class-name="small-padding fixed-width" fixed="right">
                 <template slot-scope="{row}">
                     <el-button type="primary" icon="el-icon-edit" size="mini" @click="editDataDialog(row)">
                         编辑
@@ -99,6 +99,10 @@
                     <#elseif field.propertyType?lower_case == "int" || field.propertyType?lower_case == "integer">
                 <el-form-item label="${field.comment}" prop="type">
                     <el-input v-model="temp.${field.propertyName}" oninput="value=value.replace(/[^0-9]/g,'')" />
+                </el-form-item>
+                        <#else>
+                <el-form-item label="${field.comment}" prop="type">
+                     <el-input v-model="temp.${field.propertyName}"   />
                 </el-form-item>
                     </#if>
                 </#list>

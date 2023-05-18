@@ -139,6 +139,7 @@ class AutogencodeApplicationTests {
 
                 .templateEngine(new EnhanceFreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
                 .injectionConfig(builder -> {
+                    //builder.
                     /**自定义生成模板参数**/
                     Map<String,Object> paramMap = new HashMap<>();
                     List<String> customImplNamespace = new ArrayList<>();
@@ -164,10 +165,12 @@ class AutogencodeApplicationTests {
                     /**DTO实体**/
                     customFileMap.put("dto"+File.separator+"%sDto.java", "/templates/dto.java.ftl");
                     customFileMap.put("dto"+File.separator+"%sListDto.java", "/templates/listdto.java.ftl");
-                    /** APIJS **/
+                    /** api js **/
                     customFileMap.put("api"+File.separator+MODULENAME+File.separator+"%s_api.js", "/templates/api.js.ftl");
                     /** views vue **/
                     customFileMap.put("views"+File.separator+MODULENAME+File.separator+"%s_list.vue", "/templates/listview.vue.ftl");
+                    /** router js **/
+                    customFileMap.put("router"+File.separator+MODULENAME+File.separator+"%s_router.js", "/templates/router.js.ftl");
                     builder.customMap(paramMap)
                             .customFile(customFileMap);
                 })
