@@ -90,11 +90,15 @@
                 <#list table.fields as field>
                     <#if field.keyFlag>
                 <el-form-item label="${field.comment}" prop="type">
-                    <el-input v-model="temp.${field.propertyName}" readonly disabled />
+                    <el-input v-model="temp.${field.propertyName}" readonly disabled placeholder="${field.comment}"/>
                 </el-form-item>
-                    <#elseif field.propertyType?lower_case == "date" || field.propertyName ?lower_case?contains("date")>
+                    <#elseif field.propertyType?lower_case == "date" >
                 <el-form-item label="${field.comment}" prop="type">
                      <el-date-picker v-model="temp.${field.propertyName}" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择时间" />
+                </el-form-item>
+                    <#elseif  field.propertyName ?lower_case?contains("date")>
+                <el-form-item label="${field.comment}" prop="type">
+                    <el-date-picker v-model="temp.${field.propertyName}" type="date" format="yyyyMMdd" value-format="yyyyMMdd" placeholder="选择时间" />
                 </el-form-item>
                     <#elseif field.propertyType?lower_case == "int" || field.propertyType?lower_case == "integer">
                 <el-form-item label="${field.comment}" prop="type">
@@ -102,7 +106,7 @@
                 </el-form-item>
                         <#else>
                 <el-form-item label="${field.comment}" prop="type">
-                     <el-input v-model="temp.${field.propertyName}"   />
+                     <el-input v-model="temp.${field.propertyName}"  placeholder="${field.comment}" />
                 </el-form-item>
                     </#if>
                 </#list>
