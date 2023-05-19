@@ -56,6 +56,9 @@ class AutogencodeApplicationTests {
         tables.add("daily");
         tables.add("daily_basic");
         tables.add("daily_time");
+        tables.add("index_daily");
+        tables.add("index_weight");
+
         tables.add("index_basic");
         tables.add("index_classify");
         tables.add("index_member");
@@ -78,8 +81,8 @@ class AutogencodeApplicationTests {
 
 
         FastAutoGenerator.
-                //create("jdbc:mysql://192.168.90.126:3309/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","hotel","^d4DD8$g,uccDB=F")
-                 create("jdbc:mysql://192.168.2.235:3306/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","root","-random8201227")
+                create("jdbc:mysql://192.168.90.126:3309/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","hotel","^d4DD8$g,uccDB=F")
+                 //create("jdbc:mysql://192.168.2.235:3306/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","root","-random8201227")
                 .globalConfig(builder -> {
                     builder.author("kk")               //作者
                             .outputDir(System.getProperty("user.dir")+"\\src\\main\\java")    //输出路径(写到java目录)

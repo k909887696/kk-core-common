@@ -37,10 +37,10 @@ export function insert(params, isLoading) {
 // 更新
 export function update(params, isLoading) {
   return request({
-     url: config.${package.ModuleName}_api_url + '<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}/update',
-     method: 'post',
-     data: params,
-     isLoading
+    url: config.${package.ModuleName}_api_url + '<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/api/v1/${table.name}/update',
+    method: 'post',
+    data: params,
+    isLoading
   })
 }
 // 获取详情
