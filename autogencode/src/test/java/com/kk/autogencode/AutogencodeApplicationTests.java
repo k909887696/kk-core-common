@@ -26,9 +26,9 @@ class AutogencodeApplicationTests {
    /** controller输出模板 */
     private static String CONTROLLER_TEMPLATE = "templates/controller.java";
 
-    private static String MODULENAME = "quantization" ;
+    private static String MODULENAME = "kkautogenerator" ;
 
-    private static String PARENT_NAMESPACE = "com.kk.business";
+    private static String PARENT_NAMESPACE = "com.kk";
 
     @Test
     void autocode() {
@@ -43,7 +43,7 @@ class AutogencodeApplicationTests {
         tables.add("concept_detail");
         tables.add("concept_money_flow");
          tables.add("concept_daily");
-        tables.add("daily");*/
+        tables.add("daily");
         tables.add("collection_policy");
         tables.add("collection_task");
         tables.add("collection_task_history");
@@ -77,11 +77,14 @@ class AutogencodeApplicationTests {
         tables.add("weekly");
         tables.add("index_daily");
         tables.add("collection_task");
-        tables.add("collection_task_history");
-
+        tables.add("collection_task_history");*/
+        tables.add("code_template");
+        tables.add("code_template_group");
+        tables.add("code_template_group_sub");
+        tables.add("db_connect");
 
         FastAutoGenerator.
-                create("jdbc:mysql://192.168.90.126:3309/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","hotel","^d4DD8$g,uccDB=F")
+                create("jdbc:mysql://192.168.90.126:3309/kk_auto_generate?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","hotel","^d4DD8$g,uccDB=F")
                  //create("jdbc:mysql://192.168.2.235:3306/quantization?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true","root","-random8201227")
                 .globalConfig(builder -> {
                     builder.author("kk")               //作者
