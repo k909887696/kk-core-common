@@ -84,9 +84,34 @@ public class RSAUtil {
         return "";
     }
 
+    /**
+     * rsa 加密
+     * @param input
+     * @return
+     * @throws Exception
+     */
+    public static String encryptRSAStr(String input) throws Exception {
+        byte[] pubdecoded = Base64.decodeBase64(PUBLIC_KEY);
+        PublicKey pubKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(pubdecoded));
+        String output = encryptRSA(pubKey,input) ;
+        return output;
+    }
+
+    /**
+     * rsa 解密
+     * @param input
+     * @return
+     * @throws Exception
+     */
+    public static String decryptRSAStr(String input) throws Exception {
+        byte[] decoded = Base64.decodeBase64(PRIVATE_KEY);
+        PrivateKey priKey = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(decoded));
+        String output = URLDecoder.decode(decryptRSA(priKey,input) ,"UTF-8");
+        return output;
+    }
+
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, DecoderException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, BadPaddingException, InvalidKeyException {
-        String messageEn = "jKuvw/kPtLJZvFJRAWgDvsh6Xm1swVvKuXc2b0bH3IMgJEfpQhVWsf6AeTs6oM2+Es3DEN+kk12IfuzM5IUe32JZ0hAPRhRaReV6lgDbFONi8F66k30XaKronUUXIoxjc2jR347VWZTvWcrcI2Cx+zwJUDSNA6+ZqBg9YaNts80=";
-                //"nTu+UbqzHBhOtDEtyzqklpSox385oCQEAaucPAJbN+1THTOaP6K5AW6G4o+U2aAd5q+ngVcJ9pQwKLwR4lgMNw/we9br9Wq3tS+vK33sQbEppyslKmgu6kFXct4wnpgrhNlm7ZA19GBXsh4R/fFJe9xSrqlCSOn+xJQuzvpvb1A=";
+        String messageEn = "";
         //base64编码的私钥
         Date d = new Date();
         byte[] decoded = Base64.decodeBase64(PRIVATE_KEY);
@@ -100,7 +125,7 @@ public class RSAUtil {
 
         byte[] pubdecoded = Base64.decodeBase64(PUBLIC_KEY);
         PublicKey pubKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(pubdecoded));
-        String s1 = RSAUtil.encryptRSA(pubKey,"-random8201227gg") ;
+        String s1 = RSAUtil.encryptRSA(pubKey,"xxxxxx") ;
         Date d_pub = new Date();
         System.out.println(s1);
         System.out.printf((d_pub.getTime()-d_pri.getTime())+"\n");
