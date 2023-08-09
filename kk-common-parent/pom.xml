@@ -27,10 +27,10 @@
         <net.sf.dozer.version>5.5.1</net.sf.dozer.version>
         <log4j2-t.version>2.17.0</log4j2-t.version>
         <com.alibaba.fastjson.version>1.2.15</com.alibaba.fastjson.version>
-        <mybatis-plus-boot-starter.version>3.4.3.4</mybatis-plus-boot-starter.version>
-        <mybatisplus-plus.version>1.6.0-RELEASE</mybatisplus-plus.version>
+        <mybatis-plus-boot-starter.version>3.5.0</mybatis-plus-boot-starter.version>
+        <mybatisplus-plus.version>1.7.3-RELEASE</mybatisplus-plus.version>
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
-        <mysql-connector-java.version>5.1.35</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.30</mysql-connector-java.version>
         <aspectjweaver.version>1.6.11</aspectjweaver.version>
     </properties>
 
