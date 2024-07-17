@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 import com.github.jeffreyning.mybatisplus.base.MppSqlInjector;
 
+import com.kk.common.dao.sqlinjector.sqlmethod.InsertDuplicateKeyUpdate;
 import com.kk.common.dao.sqlinjector.sqlmethod.InsertIgnoreBatchSomeColumn;
 import com.kk.common.dao.sqlinjector.sqlmethod.UpdateBatchMethod;
 import com.kk.common.dao.sqlinjector.sqlmethod.UpdateByMultiIdBatchMethod;
@@ -29,6 +30,7 @@ public class CustomBatchSqlInjector extends MppSqlInjector {
         methodList.add(new UpdateBatchMethod());
         methodList.add(new UpdateByMultiIdBatchMethod());
         methodList.add(new InsertBatchSomeColumn());
+        methodList.add(new InsertDuplicateKeyUpdate());
 
         return methodList;
     }

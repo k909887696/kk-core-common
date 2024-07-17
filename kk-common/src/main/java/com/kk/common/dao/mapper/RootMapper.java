@@ -21,6 +21,12 @@ public interface RootMapper<T> extends MppBaseMapper<T> {
     int insertIgnoreBatchSomeColumn(@Param("list") List<T> list);
 
     /**
+     * 自定义批量插入 DuplicateKeyUpdate 版本，会根据mysql主键冲突 会更新
+     * 如果要自动填充，@Param(xx) xx参数名必须是 list/collection/array 3个的其中之一
+     */
+    int insertDuplicateKeyUpdate(@Param("list") List<T> list);
+
+    /**
      * 自定义批量更新，条件为主键
      * 如果要自动填充，@Param(xx) xx参数名必须是 list/collection/array 3个的其中之一
      */
