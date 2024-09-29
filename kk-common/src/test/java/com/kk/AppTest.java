@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,8 +69,15 @@ public class AppTest
         String password ="dsfdsfsdfsdfsdfsd";
         System.out.println(JsonUtil.getJSONString( RegUtil.passwordValid(password)));
     }
-
-
+    @Test
+    public void testReadExcel() throws Exception {
+        String filePath = "F:\\log\\Query (2)(9).xlsx";
+        List<Map<String,Object>> excelData = ExcelUtils.readExcel(filePath,null,0);
+        for(Map<String,Object> map : excelData)
+        {
+            System.out.println(map);
+        }
+    }
 }
 
 class conceptVo{

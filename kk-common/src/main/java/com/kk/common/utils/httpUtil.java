@@ -2,8 +2,10 @@ package com.kk.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -12,10 +14,7 @@ import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
@@ -27,7 +26,8 @@ import java.util.*;
 @Slf4j
 public class httpUtil {
 
-
+    private final static int CONNECT_TIMEOUT = 60000; // in milliseconds
+    private final static String DEFAULT_ENCODING = "UTF-8";
 
     private final static List<String> agents = Arrays.asList( "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
 
@@ -62,16 +62,24 @@ public class httpUtil {
      * @param paramsJson
      * @return
      */
-    public static String doPost(String url, String paramsJson) {
+    public static String doPut(String url, String paramsJson, Map<String, Object> header) {
 
         CloseableHttpClient   httpClient = HttpClientBuilder.create().build();
 
-        HttpPost httpPost = new HttpPost(url);
+        HttpPut httpPost = new HttpPut(url);
         Random rand = new Random();
         httpPost.addHeader(HttpHeaders.USER_AGENT, agents.get(rand.nextInt(agents.size())));
+
+        if(header !=null && header.size()>0)
+        {
+            for(String k : header.keySet())
+            {
+                httpPost.addHeader(k,header.get(k).toString());
+            }
+        }
         try {
             StringEntity se = new StringEntity(paramsJson);
-            se.setContentEncoding("UTF-8");
+            //se.setContentEncoding("UTF-8");
             //发送json数据需要设置contentType
             se.setContentType("application/json;charset=UTF-8");
             //设置请求参数
@@ -98,11 +106,58 @@ public class httpUtil {
         return null;
     }
 
-    public static <T> T httpRestRequest(Map<String, Object> params, String url, Map<String, Object> header,Class<T> t) {
+    public static String doPost(String url, String paramsJson, Map<String, Object> header) {
+
+        CloseableHttpClient   httpClient = HttpClientBuilder.create().build();
+
+        HttpPost httpPost = new HttpPost(url);
+        Random rand = new Random();
+        httpPost.addHeader(HttpHeaders.USER_AGENT, agents.get(rand.nextInt(agents.size())));
+
+        if(header !=null && header.size()>0)
+        {
+            for(String k : header.keySet())
+            {
+                httpPost.addHeader(k,header.get(k).toString());
+            }
+        }
+        try {
+            StringEntity se = new StringEntity(paramsJson);
+            //se.setContentEncoding("UTF-8");
+            //发送json数据需要设置contentType
+            se.setContentType("application/json;charset=UTF-8");
+            //设置请求参数
+            httpPost.setEntity(se);
+            HttpResponse response = httpClient.execute(httpPost);
+            if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+                //返回json格式
+                String res = EntityUtils.toString(response.getEntity());
+                return res;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("{}|{}", "doPost;Message", e.getMessage());
+            log.error("{}|{}", "doPost;StackTrace", e.getStackTrace());
+        } finally {
+            if (httpClient != null){
+                try {
+                    httpClient.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static <T> T httpRestRequest(Map<String, Object> params, String url, Map<String, Object> header,Class<T> t){
+        return httpRestRequest(params,url,header,t,HttpMethod.POST);
+    }
+    public static <T> T httpRestRequest(Map<String, Object> params, String url, Map<String, Object> header,Class<T> t,HttpMethod httpMethod) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        HttpMethod method = HttpMethod.POST;
+        HttpMethod method = httpMethod;
         //httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
         if(header !=null && header.size()>0)

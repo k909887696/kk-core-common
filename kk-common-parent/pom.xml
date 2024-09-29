@@ -22,7 +22,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <io.springfox.version>3.0.0</io.springfox.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <net.sf.dozer.version>5.5.1</net.sf.dozer.version>
         <log4j2-t.version>2.17.0</log4j2-t.version>
@@ -130,7 +130,7 @@
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/repository/maven-snapshots/</url>
         </snapshotRepository>
-       <!-- <repository>
+      <!--  <repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/content/repositories/releases/</url>
