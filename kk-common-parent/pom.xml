@@ -32,6 +32,8 @@
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
         <mysql-connector-java.version>8.0.30</mysql-connector-java.version>
         <aspectjweaver.version>1.6.11</aspectjweaver.version>
+        <poi.version>5.1.0</poi.version>
+        <poi-ooxml.version>5.1.0</poi-ooxml.version>
     </properties>
 
 
@@ -128,6 +130,16 @@
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/repository/maven-snapshots/</url>
         </snapshotRepository>
+       <!-- <repository>
+            <id>nexus-releases</id>
+            <name>Local Nexus Repository</name>
+            <url>http://nexus.dev.com/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Local Nexus Repository</name>
+            <url>http://nexus.dev.com/content/repositories/snapshots/</url>
+        </snapshotRepository>-->
     </distributionManagement>
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
