@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -69,7 +71,7 @@ public class httpUtil {
         HttpPut httpPost = new HttpPut(url);
         Random rand = new Random();
         httpPost.addHeader(HttpHeaders.USER_AGENT, agents.get(rand.nextInt(agents.size())));
-
+       // httpPost.addHeader(HttpHeaders.CONTENT_TYPE, agents.get(rand.nextInt(agents.size())));
         if(header !=null && header.size()>0)
         {
             for(String k : header.keySet())
@@ -113,7 +115,13 @@ public class httpUtil {
         HttpPost httpPost = new HttpPost(url);
         Random rand = new Random();
         httpPost.addHeader(HttpHeaders.USER_AGENT, agents.get(rand.nextInt(agents.size())));
+        httpPost.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        httpPost.addHeader(HttpHeaders.ACCEPT_ENCODING, "UTF-8");
+        HttpHeaders httpHeaders = new HttpHeaders();
 
+
+        //httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, "application/json");
         if(header !=null && header.size()>0)
         {
             for(String k : header.keySet())
@@ -122,12 +130,16 @@ public class httpUtil {
             }
         }
         try {
-            StringEntity se = new StringEntity(paramsJson);
-            //se.setContentEncoding("UTF-8");
+            StringEntity se = new StringEntity(paramsJson, ContentType.APPLICATION_JSON);
+
+            se.setContentEncoding("UTF-8");
             //发送json数据需要设置contentType
-            se.setContentType("application/json;charset=UTF-8");
+            se.setContentType("application/json");
+            //httpPost.setHeader(httpHeaders);
             //设置请求参数
             httpPost.setEntity(se);
+
+           // httpPost.setConfig(requestConfig);
             HttpResponse response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
                 //返回json格式
