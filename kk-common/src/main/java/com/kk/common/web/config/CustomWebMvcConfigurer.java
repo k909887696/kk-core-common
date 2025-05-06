@@ -1,5 +1,6 @@
 package com.kk.common.web.config;
 
+import com.kk.common.web.intercepter.LoginIntercepter;
 import com.kk.common.web.intercepter.ParameterIntercepter;
 import com.kk.common.web.listener.ApplicationStartedEventListener;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,13 +25,17 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     @Value("${custom-web-mvc-config.intercepter-parameter-pattern:/api/**}")
     public  String intercepterParameterPattern;
 
+    @Value("${custom-web-mvc-config.intercepter-login-pattern:/api/**}")
+    public  String intercepterLoginPattern;
+    @Value("${custom-web-mvc-config.intercepter-no-login-pattern:/napi/**}")
+    public  String intercepterNoLoginPattern;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册多个Interceptor  注意路径的写法
         registry.addInterceptor( parameterIntercepter()).addPathPatterns(intercepterParameterPattern);
        // registry.addInterceptor(new TwoIntercepter()).addPathPatterns("/api2/*/**");
         //注册某个拦截器的时候，同时排除某些不拦截的路径
-        //registry.addInterceptor(new TwoIntercepter()).addPathPatterns("/api2/*/**").excludePathPatterns("/api2/xxx/**");
+        registry.addInterceptor(new LoginIntercepter()).addPathPatterns(intercepterLoginPattern).excludePathPatterns(intercepterNoLoginPattern);
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 

@@ -36,13 +36,13 @@ public class ParameterIntercepter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        if (this.test) {
+        //if (this.test) {
             response.addHeader("Access-Control-Allow-Origin", "*");
             response.addHeader("Access-Control-Allow-Methods", "*");
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Headers", "*");
             this.log.debug("测试环境支持跨域");
-        }
+       // }
 
         String seqNo = request.getHeader("seqNo");
         if (!StringUtils.hasText(seqNo)) {
