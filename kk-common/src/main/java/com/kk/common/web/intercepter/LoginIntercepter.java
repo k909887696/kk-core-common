@@ -32,7 +32,7 @@ import java.util.UUID;
 public class LoginIntercepter implements HandlerInterceptor {
     private String[] excludedPageArray;
     private Logger log = LogManager.getRootLogger();
-    @Value("${login.jwt.secret-key:2b65e17e6d86e95b6fdd0d489dd85ee6f834fded12773c5b33f8b88d685b28d1}")
+    @Value("${login.jwt.secretKey:2b65e17e6d86e95b6fdd0d489dd85ee6f834fded12773c5b33f8b88d685b28d1}")
     public String LoginJwtSecretKey;
     /**
      * 进入controller方法之前
@@ -41,13 +41,19 @@ public class LoginIntercepter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
+        log.info("{}|{}",token,LoginJwtSecretKey);
         if(StringUtils.isEmpty(token)){
             throw new BusinessException("token 不能为空！");
         }
-        Claims claims = jwtUtils.validateToken(token,LoginJwtSecretKey);
-
-        if(claims == null)
+        try {
+            Claims claims = jwtUtils.validateToken(token, LoginJwtSecretKey);
+            log.info(JsonUtil.getJSONString(claims));
+            if (claims == null) {
+                throw new BusinessException("登录信息已过期，请重新登录！");
+            }
+        }catch (Exception e)
         {
+            log.info(""+e.getMessage());
             throw new BusinessException("登录信息已过期，请重新登录！");
         }
         return !request.getMethod().equals("OPTIONS");

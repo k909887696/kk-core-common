@@ -25,9 +25,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     @Value("${custom-web-mvc-config.intercepter-parameter-pattern:/api/**}")
     public  String intercepterParameterPattern;
 
-    @Value("${custom-web-mvc-config.intercepter-login-pattern:/api/**}")
+    @Value("${custom-web-mvc-config.intercepter-login-pattern:/**/api/**}")
     public  String intercepterLoginPattern;
-    @Value("${custom-web-mvc-config.intercepter-no-login-pattern:/napi/**}")
+    @Value("${custom-web-mvc-config.intercepter-no-login-pattern:/**/napi/**}")
     public  String intercepterNoLoginPattern;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -35,7 +35,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         registry.addInterceptor( parameterIntercepter()).addPathPatterns(intercepterParameterPattern);
        // registry.addInterceptor(new TwoIntercepter()).addPathPatterns("/api2/*/**");
         //注册某个拦截器的时候，同时排除某些不拦截的路径
-        registry.addInterceptor(new LoginIntercepter()).addPathPatterns(intercepterLoginPattern).excludePathPatterns(intercepterNoLoginPattern);
+        registry.addInterceptor( loginIntercepter()).addPathPatterns(intercepterLoginPattern).excludePathPatterns(intercepterNoLoginPattern);
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
@@ -44,6 +44,11 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     public ParameterIntercepter parameterIntercepter() {
         ParameterIntercepter parameterIntercepter = new ParameterIntercepter();
         return parameterIntercepter;
+    }
+    @Bean(name = "loginIntercepter")
+    public LoginIntercepter loginIntercepter() {
+        LoginIntercepter loginIntercepter = new LoginIntercepter();
+        return loginIntercepter;
     }
     //解决上传文件控制层接收为null的方法
     @Bean(name = "multipartResolver")
