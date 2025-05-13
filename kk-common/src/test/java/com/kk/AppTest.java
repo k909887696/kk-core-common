@@ -78,6 +78,20 @@ public class AppTest
             System.out.println(map);
         }
     }
+    @Test
+    public void testRsa() throws Exception {
+        String input = "-random";
+        String  encryptRSAStr = RSAUtil.encryptRSAStr(input);
+        System.out.println(encryptRSAStr);
+        System.out.println(RSAUtil.decryptRSAStr(encryptRSAStr));
+    }
+    @Test
+    public void testSHA()
+    {
+        String input = DateUtil.date2String(new Date(),DateUtil.PATTERN_STANDARD17W);
+        System.out.println(input +"LR2025000000003");
+        System.out.println(SHAUtil.getSHA1(input));
+    }
 }
 
 class conceptVo{

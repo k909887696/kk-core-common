@@ -172,7 +172,8 @@
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <name>Local Nexus Repository</name>
-            <url>http://nexus.dev.com/repository/maven-snapshots/</url>
+            <url>http://8.134.61.236:8081/repository/maven-snapshots/</url>
+            <!--<url>http://nexus.dev.com/repository/maven-snapshots/</url>-->
         </snapshotRepository>
       <!--  </snapshotRepository>
           <repository>

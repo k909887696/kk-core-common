@@ -12,10 +12,6 @@ import java.util.Date;
  * @Date：2025/4/23 22:08
  */
 public class jwtUtils {
-    // 密钥，用于签名和验证 JWT
-    private static final String SECRET_KEY = "2b65e17e6d86e95b6fdd0d489dd85ee6f834fded12773c5b33f8b88d685b28d1";
-    // 有效期，设置为 20 小时
-    private static final long EXPIRATION_TIME = 20 * 60 * 60 * 1000;
 
     /**
      * 生成 JWT
@@ -50,6 +46,19 @@ public class jwtUtils {
                     .setSigningKey(secretKey)
                     .parseClaimsJws(token)
                     .getBody();
+
+    }
+
+    /**
+     * 过期 JWT
+     * @param token
+     * @param secretKey
+     */
+    public static void expireToken(String token,String secretKey) {
+
+         Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token);
 
     }
 }
