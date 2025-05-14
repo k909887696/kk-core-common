@@ -3,9 +3,12 @@ package com.kk.common.web.config;
 import com.kk.common.web.intercepter.LoginIntercepter;
 import com.kk.common.web.intercepter.ParameterIntercepter;
 import com.kk.common.web.listener.ApplicationStartedEventListener;
+import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -20,6 +23,8 @@ import java.util.List;
  * 拦截器 、监听器注册
  */
 @Configuration
+@ConditionalOnProperty(prefix = "custom-web-mvc-config",name = "enabled", havingValue = "true", matchIfMissing = false)
+
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     @Value("${custom-web-mvc-config.intercepter-parameter-pattern:/api/**}")
@@ -33,9 +38,10 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //注册多个Interceptor  注意路径的写法
         registry.addInterceptor( parameterIntercepter()).addPathPatterns(intercepterParameterPattern);
-       // registry.addInterceptor(new TwoIntercepter()).addPathPatterns("/api2/*/**");
-        //注册某个拦截器的时候，同时排除某些不拦截的路径
-        registry.addInterceptor( loginIntercepter()).addPathPatterns(intercepterLoginPattern).excludePathPatterns(intercepterNoLoginPattern);
+       if(!StringUtils.isEmpty(intercepterLoginPattern)) {
+           //注册某个拦截器的时候，同时排除某些不拦截的路径
+           registry.addInterceptor(loginIntercepter()).addPathPatterns(intercepterLoginPattern).excludePathPatterns(intercepterNoLoginPattern);
+       }
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
