@@ -1,6 +1,7 @@
 package com.kk.common.web.config;
 
 import com.kk.common.web.intercepter.LoginIntercepter;
+import com.kk.common.web.intercepter.MemberLoginIntercepter;
 import com.kk.common.web.intercepter.ParameterIntercepter;
 import com.kk.common.web.listener.ApplicationStartedEventListener;
 import io.netty.util.internal.StringUtil;
@@ -23,7 +24,7 @@ import java.util.List;
  * 拦截器 、监听器注册
  */
 @Configuration
-@ConditionalOnProperty(prefix = "custom-web-mvc-config",name = "enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "custom-web-mvc-config",name = "enable", havingValue = "true", matchIfMissing = false)
 
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
@@ -34,14 +35,18 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     public  String intercepterLoginPattern;
     @Value("${custom-web-mvc-config.intercepter-no-login-pattern:/**/napi/**}")
     public  String intercepterNoLoginPattern;
+    @Value("${custom-web-mvc-config.intercepter-member-login-pattern:/**/m/api/**}")
+    public  String intercepterMemberLoginPattern;
+    @Value("${custom-web-mvc-config.intercepter-member-no-login-pattern:/**/m/napi/**}")
+    public  String intercepterMemberNoLoginPattern;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册多个Interceptor  注意路径的写法
         registry.addInterceptor( parameterIntercepter()).addPathPatterns(intercepterParameterPattern);
-       if(!StringUtils.isEmpty(intercepterLoginPattern)) {
-           //注册某个拦截器的时候，同时排除某些不拦截的路径
-           registry.addInterceptor(loginIntercepter()).addPathPatterns(intercepterLoginPattern).excludePathPatterns(intercepterNoLoginPattern);
-       }
+
+        //注册某个拦截器的时候，同时排除某些不拦截的路径
+        registry.addInterceptor(loginIntercepter()).addPathPatterns(intercepterLoginPattern).excludePathPatterns(intercepterNoLoginPattern);
+        registry.addInterceptor(memberLoginIntercepter()).addPathPatterns(intercepterMemberLoginPattern).excludePathPatterns(intercepterMemberNoLoginPattern);
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
@@ -55,6 +60,12 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     public LoginIntercepter loginIntercepter() {
         LoginIntercepter loginIntercepter = new LoginIntercepter();
         return loginIntercepter;
+    }
+
+    @Bean(name = "memberLoginIntercepter")
+    public MemberLoginIntercepter memberLoginIntercepter() {
+        MemberLoginIntercepter memberLoginIntercepter = new MemberLoginIntercepter();
+        return memberLoginIntercepter;
     }
     //解决上传文件控制层接收为null的方法
     @Bean(name = "multipartResolver")

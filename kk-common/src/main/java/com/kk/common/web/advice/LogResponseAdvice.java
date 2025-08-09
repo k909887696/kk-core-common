@@ -39,10 +39,11 @@ public class LogResponseAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         String uri = request.getURI().toString();
         String bodyJson = JsonUtil.getJSONString(body);
-        long elapsed = System.currentTimeMillis() - (Long) TraceData.seqStart.get();
+        long elapsed = 0;
         String seqNo = null;
 
         try {
+            elapsed = System.currentTimeMillis() - (Long) TraceData.seqStart.get();
             seqNo = TraceData.traceId.get();
             response.getHeaders().add("seqNo", seqNo);
 

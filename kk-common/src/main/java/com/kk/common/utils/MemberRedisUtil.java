@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Component
-public class RedisUtil {
+public class MemberRedisUtil {
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -24,7 +24,7 @@ public class RedisUtil {
      */
     public void deleteKey(String key)
     {
-        redisTemplate.delete(SystemSource.middleground+":"+key);
+        redisTemplate.delete(SystemSource.member+":"+key);
     }
     /**
      * 给一个指定的 key 值附加过期时间
@@ -34,7 +34,7 @@ public class RedisUtil {
      * @return
      */
     public boolean expire(String key, long time) {
-        return redisTemplate.expire(SystemSource.middleground+":"+key, time, TimeUnit.SECONDS);
+        return redisTemplate.expire(SystemSource.member+":"+key, time, TimeUnit.SECONDS);
     }
     /**
      * 根据key 获取过期时间
@@ -43,7 +43,7 @@ public class RedisUtil {
      * @return
      */
     public long getTime(String key) {
-        return redisTemplate.getExpire(SystemSource.middleground+":"+key, TimeUnit.SECONDS);
+        return redisTemplate.getExpire(SystemSource.member+":"+key, TimeUnit.SECONDS);
     }
     /**
      * 根据key 获取过期时间
@@ -52,7 +52,7 @@ public class RedisUtil {
      * @return
      */
     public boolean hasKey(String key) {
-        return redisTemplate.hasKey(SystemSource.middleground+":"+key);
+        return redisTemplate.hasKey(SystemSource.member+":"+key);
     }
     /**
      * 移除指定key 的过期时间
@@ -61,7 +61,7 @@ public class RedisUtil {
      * @return
      */
     public boolean persist(String key) {
-        return redisTemplate.boundValueOps(SystemSource.middleground+":"+key).persist();
+        return redisTemplate.boundValueOps(SystemSource.member+":"+key).persist();
     }
 
     //- - - - - - - - - - - - - - - - - - - - -  String类型 - - - - - - - - - - - - - - - - - - - -
@@ -73,7 +73,7 @@ public class RedisUtil {
      * @return 值
      */
     public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(SystemSource.middleground+":"+key);
+        return key == null ? null : redisTemplate.opsForValue().get(SystemSource.member+":"+key);
     }
 
     /**
@@ -84,7 +84,7 @@ public class RedisUtil {
      * @return true成功 false 失败
      */
     public void set(String key, String value) {
-        redisTemplate.opsForValue().set(SystemSource.middleground+":"+key, value);
+        redisTemplate.opsForValue().set(SystemSource.member+":"+key, value);
     }
 
     /**
@@ -97,9 +97,9 @@ public class RedisUtil {
      */
     public void set(String key, String value, long time) {
         if (time > 0) {
-            redisTemplate.opsForValue().set(SystemSource.middleground+":"+key, value, time, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(SystemSource.member+":"+key, value, time, TimeUnit.SECONDS);
         } else {
-            redisTemplate.opsForValue().set(SystemSource.middleground+":"+key, value);
+            redisTemplate.opsForValue().set(SystemSource.member+":"+key, value);
         }
 
     }
@@ -132,7 +132,7 @@ public class RedisUtil {
      * @param number
      */
     public Long increment(String key, long number) {
-        return redisTemplate.opsForValue().increment(SystemSource.middleground+":"+key, number);
+        return redisTemplate.opsForValue().increment(SystemSource.member+":"+key, number);
     }
 
     /**
@@ -144,7 +144,7 @@ public class RedisUtil {
      * @param number
      */
     public Double increment(String key, double number) {
-        return redisTemplate.opsForValue().increment(SystemSource.middleground+":"+key, number);
+        return redisTemplate.opsForValue().increment(SystemSource.member+":"+key, number);
     }
 
     //- - - - - - - - - - - - - - - - - - - - -  set类型 - - - - - - - - - - - - - - - - - - - -
@@ -156,7 +156,7 @@ public class RedisUtil {
      * @return
      */
     public void sSet(String key, String value) {
-        redisTemplate.opsForSet().add(SystemSource.middleground+":"+key, value);
+        redisTemplate.opsForSet().add(SystemSource.member+":"+key, value);
     }
 
     /**
@@ -166,7 +166,7 @@ public class RedisUtil {
      * @return
      */
     public Set<Object> members(String key) {
-        return redisTemplate.opsForSet().members(SystemSource.middleground+":"+key);
+        return redisTemplate.opsForSet().members(SystemSource.member+":"+key);
     }
 
     /**
@@ -177,7 +177,7 @@ public class RedisUtil {
      * @return
      */
     public void randomMembers(String key, long count) {
-        redisTemplate.opsForSet().randomMembers(SystemSource.middleground+":"+key, count);
+        redisTemplate.opsForSet().randomMembers(SystemSource.member+":"+key, count);
     }
 
     /**
@@ -187,7 +187,7 @@ public class RedisUtil {
      * @return
      */
     public Object randomMember(String key) {
-        return redisTemplate.opsForSet().randomMember(SystemSource.middleground+":"+key);
+        return redisTemplate.opsForSet().randomMember(SystemSource.member+":"+key);
     }
 
     /**
@@ -207,7 +207,7 @@ public class RedisUtil {
      * @return
      */
     public long size(String key) {
-        return redisTemplate.opsForSet().size(SystemSource.middleground+":"+key);
+        return redisTemplate.opsForSet().size(SystemSource.member+":"+key);
     }
 
     /**
@@ -218,7 +218,7 @@ public class RedisUtil {
      * @return true 存在 false不存在
      */
     public boolean sHasKey(String key, Object value) {
-        return redisTemplate.opsForSet().isMember(SystemSource.middleground+":"+key, value);
+        return redisTemplate.opsForSet().isMember(SystemSource.member+":"+key, value);
     }
 
     /**
@@ -229,7 +229,7 @@ public class RedisUtil {
      * @return
      */
     public boolean isMember(String key, Object obj) {
-        return redisTemplate.opsForSet().isMember(SystemSource.middleground+":"+key, obj);
+        return redisTemplate.opsForSet().isMember(SystemSource.member+":"+key, obj);
     }
 
     /**
@@ -241,7 +241,7 @@ public class RedisUtil {
      * @return
      */
     public boolean move(String key, String value, String destKey) {
-        return redisTemplate.opsForSet().move(SystemSource.middleground+":"+key, value, destKey);
+        return redisTemplate.opsForSet().move(SystemSource.member+":"+key, value, destKey);
     }
 
     /**
@@ -252,7 +252,7 @@ public class RedisUtil {
      * @return
      */
     public void remove(String key, Object... values) {
-        redisTemplate.opsForSet().remove(SystemSource.middleground+":"+key, values);
+        redisTemplate.opsForSet().remove(SystemSource.member+":"+key, values);
     }
 
     /**
@@ -263,7 +263,7 @@ public class RedisUtil {
      * @return
      */
     public Set<Set> difference(String key, String destKey) {
-        return redisTemplate.opsForSet().difference(SystemSource.middleground+":"+key, destKey);
+        return redisTemplate.opsForSet().difference(SystemSource.member+":"+key, destKey);
     }
 
 
@@ -277,7 +277,7 @@ public class RedisUtil {
      * @return
      */
     public void add(String key, Map<String, String> map) {
-        redisTemplate.opsForHash().putAll(SystemSource.middleground+":"+key, map);
+        redisTemplate.opsForHash().putAll(SystemSource.member+":"+key, map);
     }
 
     /**
@@ -287,7 +287,7 @@ public class RedisUtil {
      * @return
      */
     public Map<Object, Object> getHashEntries(String key) {
-        return redisTemplate.opsForHash().entries(SystemSource.middleground+":"+key);
+        return redisTemplate.opsForHash().entries(SystemSource.member+":"+key);
     }
 
     /**
@@ -298,7 +298,7 @@ public class RedisUtil {
      * @return
      */
     public boolean hashKey(String key, String hashKey) {
-        return redisTemplate.opsForHash().hasKey(SystemSource.middleground+":"+key, hashKey);
+        return redisTemplate.opsForHash().hasKey(SystemSource.member+":"+key, hashKey);
     }
 
     /**
@@ -330,7 +330,7 @@ public class RedisUtil {
      * @return
      */
     public String popValue(String key) {
-        return redisTemplate.opsForSet().pop(SystemSource.middleground+":"+key).toString();
+        return redisTemplate.opsForSet().pop(SystemSource.member+":"+key).toString();
     }
 
     /**
@@ -341,7 +341,7 @@ public class RedisUtil {
      * @return 删除成功的 数量
      */
     public Long delete(String key, String... hashKeys) {
-        return redisTemplate.opsForHash().delete(SystemSource.middleground+":"+key, hashKeys);
+        return redisTemplate.opsForHash().delete(SystemSource.member+":"+key, hashKeys);
     }
 
     /**
@@ -353,7 +353,7 @@ public class RedisUtil {
      * @return
      */
     public Long increment(String key, String hashKey, long number) {
-        return redisTemplate.opsForHash().increment(SystemSource.middleground+":"+key, hashKey, number);
+        return redisTemplate.opsForHash().increment(SystemSource.member+":"+key, hashKey, number);
     }
 
     /**
@@ -365,7 +365,7 @@ public class RedisUtil {
      * @return
      */
     public Double increment(String key, String hashKey, Double number) {
-        return redisTemplate.opsForHash().increment(SystemSource.middleground+":"+key, hashKey, number);
+        return redisTemplate.opsForHash().increment(SystemSource.member+":"+key, hashKey, number);
     }
 
     /**
@@ -375,7 +375,7 @@ public class RedisUtil {
      * @return
      */
     public Set<Object> hashKeys(String key) {
-        return redisTemplate.opsForHash().keys(SystemSource.middleground+":"+key);
+        return redisTemplate.opsForHash().keys(SystemSource.member+":"+key);
     }
 
     /**
@@ -385,7 +385,7 @@ public class RedisUtil {
      * @return
      */
     public Long hashSize(String key) {
-        return redisTemplate.opsForHash().size(SystemSource.middleground+":"+key);
+        return redisTemplate.opsForHash().size(SystemSource.member+":"+key);
     }
 
     //- - - - - - - - - - - - - - - - - - - - -  list类型 - - - - - - - - - - - - - - - - - - - -
@@ -398,7 +398,7 @@ public class RedisUtil {
      * @return
      */
     public void leftPush(String key, Object value) {
-        redisTemplate.opsForList().leftPush(SystemSource.middleground+":"+key, value);
+        redisTemplate.opsForList().leftPush(SystemSource.member+":"+key, value);
     }
 
     /**
@@ -421,7 +421,7 @@ public class RedisUtil {
      * @return
      */
     public List<Object> range(String key, long start, long end) {
-        return redisTemplate.opsForList().range(SystemSource.middleground+":"+key, start, end);
+        return redisTemplate.opsForList().range(SystemSource.member+":"+key, start, end);
     }
 
     /**
@@ -434,7 +434,7 @@ public class RedisUtil {
      * @return
      */
     public void leftPush(String key, String pivot, String value) {
-        redisTemplate.opsForList().leftPush(SystemSource.middleground+":"+key, pivot, value);
+        redisTemplate.opsForList().leftPush(SystemSource.member+":"+key, pivot, value);
     }
 
     /**
@@ -446,7 +446,7 @@ public class RedisUtil {
      */
     public void leftPushAll(String key, String... values) {
 //        redisTemplate.opsForList().leftPushAll(key,"w","x","y");
-        redisTemplate.opsForList().leftPushAll(SystemSource.middleground+":"+key, values);
+        redisTemplate.opsForList().leftPushAll(SystemSource.member+":"+key, values);
     }
 
     /**
@@ -457,7 +457,7 @@ public class RedisUtil {
      * @return
      */
     public void leftPushAll(String key, String value) {
-        redisTemplate.opsForList().rightPush(SystemSource.middleground+":"+key, value);
+        redisTemplate.opsForList().rightPush(SystemSource.member+":"+key, value);
     }
 
     /**
@@ -469,7 +469,7 @@ public class RedisUtil {
      */
     public void rightPushAll(String key, String... values) {
         //redisTemplate.opsForList().leftPushAll(key,"w","x","y");
-        redisTemplate.opsForList().rightPushAll(SystemSource.middleground+":"+key, values);
+        redisTemplate.opsForList().rightPushAll(SystemSource.member+":"+key, values);
     }
 
     /**
@@ -480,7 +480,7 @@ public class RedisUtil {
      * @return
      */
     public void rightPushIfPresent(String key, Object value) {
-        redisTemplate.opsForList().rightPushIfPresent(SystemSource.middleground+":"+key, value);
+        redisTemplate.opsForList().rightPushIfPresent(SystemSource.member+":"+key, value);
     }
 
     /**
@@ -490,7 +490,7 @@ public class RedisUtil {
      * @return
      */
     public long listLength(String key) {
-        return redisTemplate.opsForList().size(SystemSource.middleground+":"+key);
+        return redisTemplate.opsForList().size(SystemSource.member+":"+key);
     }
 
     /**
@@ -500,7 +500,7 @@ public class RedisUtil {
      * @return
      */
     public void leftPop(String key) {
-        redisTemplate.opsForList().leftPop(SystemSource.middleground+":"+key);
+        redisTemplate.opsForList().leftPop(SystemSource.member+":"+key);
     }
 
     /**
@@ -510,7 +510,7 @@ public class RedisUtil {
      * @return
      */
     public void leftPop(String key, long timeout, TimeUnit unit) {
-        redisTemplate.opsForList().leftPop(SystemSource.middleground+":"+key, timeout, unit);
+        redisTemplate.opsForList().leftPop(SystemSource.member+":"+key, timeout, unit);
     }
 
     /**
@@ -520,7 +520,7 @@ public class RedisUtil {
      * @return
      */
     public void rightPop(String key) {
-        redisTemplate.opsForList().rightPop(SystemSource.middleground+":"+key);
+        redisTemplate.opsForList().rightPop(SystemSource.member+":"+key);
     }
 
     /**
@@ -530,6 +530,6 @@ public class RedisUtil {
      * @return
      */
     public void rightPop(String key, long timeout, TimeUnit unit) {
-        redisTemplate.opsForList().rightPop(SystemSource.middleground+":"+key, timeout, unit);
+        redisTemplate.opsForList().rightPop(SystemSource.member+":"+key, timeout, unit);
     }
 }
