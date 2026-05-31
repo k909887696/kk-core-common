@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 时间工具类
  * @Author: kk
  * @Date: 2021/11/18 17:49
  */
@@ -286,6 +287,15 @@ public class DateUtil {
         }
 
         return convertSuccess;
+    }
+
+    /**
+     * 获取时间间隔(ms)
+     * @param startTime 开始时间
+     * @return 时间间隔
+     */
+    public static long elapsedTimeMillis(long startTime) {
+        return System.currentTimeMillis() - startTime;
     }
 
     public static void main(String[] args){

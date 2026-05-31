@@ -1,6 +1,9 @@
 package com.kk.common.web.model;
 
-import io.swagger.annotations.ApiModelProperty;
+
+
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
@@ -8,53 +11,51 @@ import java.io.Serializable;
  * @Author: kk
  * @Date: 2021/11/17 14:17
  */
-
+@Schema(name = "ApiResult",description = "api统一返回类")
 public class ApiResult<T> implements Serializable {
     public static final String OK = "200";
     public static final String ERR = "-1";
     public static final ApiResult SUCCESS = new ApiResult("200", "操作成功！");
-    @ApiModelProperty(
-            name = "状态码",
-            value = "除了\"200\"表示放回正确结果，其余都是异常状态"
+    @Schema(
+
+            description = "状态码，除了\"200\"表示放回正确结果，其余都是异常状态"
     )
     private String code;
-    @ApiModelProperty(
-            name = "描述",
-            value = "返回结果的描述"
+    @Schema(
+
+            description = "返回结果的描述"
     )
     private String desc;
-    @ApiModelProperty(
-            name = "数据",
-            value = "接口返回的数据"
+    @Schema(
+
+            description = "接口返回的数据"
     )
     private T data;
 
     public static ApiResult getFailResult(String message) {
-        return new ApiResult("-1", message);
+        return new ApiResult(ERR, message);
     }
 
     public static ApiResult getSuccessResult(String message) {
-        return new ApiResult("200", message);
+        return new ApiResult(OK, message);
     }
 
     public static ApiResult getSuccessResult(Object data, String message) {
-        return new ApiResult("200", message, data);
+        return new ApiResult(OK, message, data);
     }
 
     public ApiResult() {
-        this.code = "-1";
-        this.desc = "";
+        this.code = OK;
+        this.desc = SUCCESS.desc;
     }
 
     public ApiResult(String code, String message) {
-        this.code = "-1";
-        this.desc = "";
         this.code = code;
         this.desc = message;
     }
 
     public ApiResult(String code, String message, T data) {
-        this.code = "-1";
+        this.code = ERR;
         this.desc = "";
         this.code = code;
         this.desc = message;
@@ -62,7 +63,7 @@ public class ApiResult<T> implements Serializable {
     }
 
     public ApiResult(T data) {
-        this("200", "操作成功！", data);
+        this(OK, "操作成功！", data);
     }
 
     public boolean equals(Object obj) {

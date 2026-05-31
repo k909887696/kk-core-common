@@ -6,20 +6,28 @@
   <parent>
     <groupId>com.kk</groupId>
     <artifactId>kk-common-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.21.0</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.kk</groupId>
   <artifactId>kk-common</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.21.1.SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>kk-common</name>
 
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <java.version>21</java.version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <org.springdoc.version>2.5.0</org.springdoc.version>
+    <mybatis-plus-spring-boot3-starter.version>3.5.15</mybatis-plus-spring-boot3-starter.version>
+    <mybatisplus-plus.version>1.7.5-RELEASE</mybatisplus-plus.version>
+    <druid-spring-boot-3-starter.version>1.2.20</druid-spring-boot-3-starter.version>
+    <elasticsearch-client.version>7.10.1</elasticsearch-client.version>
+    <lombok.version>1.18.30</lombok.version>
+    <sa-token.version>1.37.0</sa-token.version>
   </properties>
 
   <dependencies>
@@ -31,10 +39,11 @@
 
 
     <!--swagger3依赖-->
+
     <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-boot-starter</artifactId>
-      <version>${io.springfox.version}</version>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${org.springdoc.version}</version>
     </dependency>
     <!--validation依赖-->
     <dependency>
@@ -68,38 +77,23 @@
       <artifactId>dozer</artifactId>
       <version>${net.sf.dozer.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <optional>true</optional>
-    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <optional>true</optional>
+      <version>${lombok.version}</version>
     </dependency>
+    <!--    mybatis-plus-->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-cache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-redis</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+      <version>${mybatis-plus-spring-boot3-starter.version}</version>
     </dependency>
     <dependency>
       <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-boot-starter</artifactId>
-      <version>${mybatis-plus-boot-starter.version}</version>
+      <artifactId>mybatis-plus-jsqlparser</artifactId>
+      <version>${mybatis-plus-spring-boot3-starter.version}</version>
     </dependency>
-
     <dependency>
       <groupId>com.github.jeffreyning</groupId>
       <artifactId>mybatisplus-plus</artifactId>
@@ -110,8 +104,12 @@
     <!-- alibaba的druid数据库连接池 -->
     <dependency>
       <groupId>com.alibaba</groupId>
-      <artifactId>druid-spring-boot-starter</artifactId>
-      <version>${druid-spring-boot-starter.version}</version>
+      <artifactId>druid-spring-boot-3-starter</artifactId>
+      <version>${druid-spring-boot-3-starter.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
     <!-- alibaba的druid数据库连接池 -->
     <dependency>
@@ -142,14 +140,11 @@
       <version>${aspectjweaver.version}</version >
     </dependency>
     <!--CloseableHttpClient-->
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-mail</artifactId>
-    </dependency>
+<!--    <dependency>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
+    </dependency>-->
+
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-context</artifactId>
@@ -171,22 +166,42 @@
       <artifactId>easyexcel</artifactId>
       <version>${easyexcel.version}</version>
     </dependency>
+    <!-- 添加新版依赖（7.17.x 适配 ES 7.x 集群） -->
     <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-api</artifactId>
-      <version>0.11.5</version>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>elasticsearch-rest-high-level-client</artifactId>
+      <version>${elasticsearch-client.version}</version>
     </dependency>
+    <!-- Spring Boot 3 整合 Redis 的核心依赖 -->
     <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-impl</artifactId>
-      <version>0.11.5</version>
-      <scope>runtime</scope>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
+    <!-- Sa-Token 核心包 -->
     <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-jackson</artifactId>
-      <version>0.11.5</version>
-      <scope>runtime</scope>
+      <groupId>cn.dev33</groupId>
+      <artifactId>sa-token-spring-boot3-starter</artifactId>
+      <version>${sa-token.version}</version>
+    </dependency>
+
+    <!-- Sa-Token 整合 Redis (使用 jackson 序列化) -->
+    <dependency>
+      <groupId>cn.dev33</groupId>
+      <artifactId>sa-token-redis-jackson</artifactId>
+      <version>${sa-token.version}</version>
+    </dependency>
+
+    <!-- 【新增】Sa-Token 整合 JWT -->
+    <dependency>
+      <groupId>cn.dev33</groupId>
+      <artifactId>sa-token-jwt</artifactId>
+      <version>${sa-token.version}</version>
+    </dependency>
+
+    <!-- 提供 Redis 连接池 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-pool2</artifactId>
     </dependency>
   </dependencies>
 

@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * 文件操作工具类
+ */
 public  class FileUtil {
     /**
      * 判断文件是否存在，不存在就创建

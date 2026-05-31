@@ -4,35 +4,30 @@ package com.kk.common.dao;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-
 import com.kk.common.dao.sqlinjector.CustomBatchSqlInjector;
+import jakarta.annotation.Resource;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.*;
 
-import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 /**
  * @Author: kk
  * @Date: 2021/12/7 14:21
  */
 @Configuration
-
+@EnableTransactionManagement
 public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
@@ -41,7 +36,7 @@ public class MybatisPlusConfig {
         return mybatisPlusInterceptor;
     }
 
-    @Value("${mybatis-plus-config.tx-method-timeout:600}")
+    @Value("${mybatis-plus-config.tx-method-timeout:60}")
     private int TX_METHOD_TIMEOUT ;
     @Value("${mybatis-plus-config.tx-method-pointcut:execution(* com.kk.business..service..*.*(..))}")
     private String TX_METHOD_POINTCUT;
@@ -57,7 +52,7 @@ public class MybatisPlusConfig {
     public CustomBatchSqlInjector customBatchSqlInjector() {
         return new CustomBatchSqlInjector();
     }
-    @Bean
+    //@Bean
     public TransactionInterceptor txAdvice( ) {
         NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
         RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
@@ -105,7 +100,7 @@ public class MybatisPlusConfig {
     }
 
     // 切面的定义,pointcut及advice
-    @Bean
+    //@Bean
     public Advisor txAdviceAdvisor() {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression(TX_METHOD_POINTCUT);

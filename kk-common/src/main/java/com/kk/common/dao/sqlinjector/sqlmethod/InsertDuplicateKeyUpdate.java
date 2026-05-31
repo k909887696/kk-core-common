@@ -35,7 +35,7 @@ public class InsertDuplicateKeyUpdate extends AbstractMethod {
         SqlMethod sqlMethod = SqlMethod.INSERT_ONE;
         String sqlTemplate = "<script>\nINSERT  INTO %s %s VALUES %s\n ON DUPLICATE KEY update %s </script>";
         List<TableFieldInfo> fieldList = tableInfo.getFieldList();
-        String insertSqlColumn = tableInfo.getKeyInsertSqlColumn(true, false) + this.filterTableFieldInfo(fieldList, this.predicate, TableFieldInfo::getInsertSqlColumn, "");
+        String insertSqlColumn = tableInfo.getKeyInsertSqlColumn(true, "",false) + this.filterTableFieldInfo(fieldList, this.predicate, TableFieldInfo::getInsertSqlColumn, "");
         String columnScript = "(" + insertSqlColumn.substring(0, insertSqlColumn.length() - 1) + ")";
         String insertSqlProperty = tableInfo.getKeyInsertSqlProperty(true, "et.", false) + this.filterTableFieldInfo(fieldList, this.predicate, (i) -> {
             return i.getInsertSqlProperty("et.");
@@ -70,10 +70,13 @@ public class InsertDuplicateKeyUpdate extends AbstractMethod {
         return "insertDuplicateKeyUpdate";
     }
 
-    public InsertDuplicateKeyUpdate() {
+    public InsertDuplicateKeyUpdate(String methodName) {
+        super(methodName);
     }
 
-    public InsertDuplicateKeyUpdate(final Predicate<TableFieldInfo> predicate) {
+
+    public InsertDuplicateKeyUpdate(String methodName, Predicate<TableFieldInfo> predicate) {
+        super(methodName);
         this.predicate = predicate;
     }
 

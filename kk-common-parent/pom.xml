@@ -5,27 +5,27 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.2.12</version>
+
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kk</groupId>
     <artifactId>kk-common-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.21.0</version>
 
     <name>kk-common-parent</name>
 
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <io.springfox.version>3.0.0</io.springfox.version>
         <commons-io.version>2.15.1</commons-io.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <net.sf.dozer.version>5.5.1</net.sf.dozer.version>
-        <log4j2-t.version>2.17.0</log4j2-t.version>
+        <log4j2-t.version>2.21.1</log4j2-t.version>
         <com.alibaba.fastjson.version>1.2.15</com.alibaba.fastjson.version>
         <mybatis-plus-boot-starter.version>3.5.0</mybatis-plus-boot-starter.version>
         <mybatisplus-plus.version>1.7.3-RELEASE</mybatisplus-plus.version>
@@ -35,6 +35,7 @@
         <poi.version>5.1.0</poi.version>
         <poi-ooxml.version>5.1.0</poi-ooxml.version>
         <easyexcel.version>4.0.3</easyexcel.version>
+        <elasticsearch-client.version>7.10.1</elasticsearch-client.version>
     </properties>
 
 
@@ -121,6 +122,16 @@
     </repositories>
 
     <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>Releases Repository</name>
+            <url>http://192.168.30.115:8081/repository/release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>Snapshots Repository</name>
+            <url>http://192.168.30.115:8081/repository/snapshot-local</url>
+        </snapshotRepository>
        <!-- <repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
@@ -131,7 +142,7 @@
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/repository/maven-snapshots/</url>
         </snapshotRepository>-->
-        <repository>
+        <!--<repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/content/repositories/releases/</url>
@@ -139,9 +150,8 @@
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <name>Local Nexus Repository</name>
-            <url>http://8.134.61.236:8081/repository/maven-snapshots/</url>
-            <!--<url>http://nexus.dev.com/repository/maven-snapshots/</url>-->
-        </snapshotRepository>
+            <url>http://nexus.dev.com/content/repositories/snapshots/</url>
+        </snapshotRepository>-->
     </distributionManagement>
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
@@ -158,7 +168,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.11.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>

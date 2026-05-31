@@ -10,7 +10,7 @@ import org.dozer.Mapper;
 
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 
 public class MapperUtils {

@@ -1,14 +1,13 @@
 package com.kk.common.base.email;
 
+import jakarta.annotation.Resource;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 
 /**
  * @Author: kk
@@ -31,6 +30,10 @@ public class EmailUtil {
             mimeMessageHelper.setText(sendMsg.getText(), true);
             // 设置发送到的邮箱
             mimeMessageHelper.setTo(sendMsg.getTo().toArray(new String[sendMsg.getTo().size()]));
+            // ========== 设置抄送人员（如果存在）==========
+            if (sendMsg.getCc() != null && !sendMsg.getCc().isEmpty()) {
+                mimeMessageHelper.setCc(sendMsg.getCc().toArray(new String[sendMsg.getCc().size()]));
+            }
             // 设置发送人和配置文件中邮箱一致
             mimeMessageHelper.setFrom(sendMsg.getFrom());
             // 上传附件

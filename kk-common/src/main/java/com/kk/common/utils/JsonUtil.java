@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
+ * JSON工具类
  * @Author: kk
  * @Date: 2021/11/18 17:46
  */

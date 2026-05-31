@@ -1,10 +1,12 @@
 package com.kk.common.web.filter;
 
 import com.kk.common.web.servlet.MyHttpServletRequestWrapper;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
+
+
 import java.io.IOException;
 
 /**
@@ -12,7 +14,6 @@ import java.io.IOException;
  * @Date: 2021/11/19 15:09
  * 替换servlet
  */
-@Component
 public class MyServletRequestReplacedFilter implements Filter {
 
     @Override

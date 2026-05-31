@@ -26,11 +26,11 @@ public class CustomBatchSqlInjector extends MppSqlInjector {
     @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass,tableInfo);
-        methodList.add(new InsertIgnoreBatchSomeColumn());
-        methodList.add(new UpdateBatchMethod());
-        methodList.add(new UpdateByMultiIdBatchMethod());
+        methodList.add(new InsertIgnoreBatchSomeColumn("insertIgnoreBatchSomeColumn"));
+        methodList.add(new UpdateBatchMethod("updateBatch"));
+        methodList.add(new UpdateByMultiIdBatchMethod("updateByMultiIdBatch"));
         methodList.add(new InsertBatchSomeColumn());
-        methodList.add(new InsertDuplicateKeyUpdate());
+        methodList.add(new InsertDuplicateKeyUpdate("insertDuplicateKeyUpdate"));
 
         return methodList;
     }

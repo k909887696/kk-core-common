@@ -1,0 +1,54 @@
+{
+  "@timestamp": {
+    "$resolver": "timestamp",
+    "pattern": {
+      "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+      "timeZone": "UTC"
+    }
+  },
+  "logLevel": {
+    "$resolver": "level",
+    "field": "name"
+  },
+  "message": {
+    "$resolver": "cmsg",
+    "stringified": true
+  },
+  "traceId": {
+    "$resolver": "mdc",
+    "key": "traceId"
+  },
+  "applicationName": {
+    "$resolver": "pattern",
+    "pattern": "${loggingStoreName}"
+  },
+  "environment": {
+    "$resolver": "pattern",
+    "pattern": "${loggingStoreEnv}"
+  },
+  "logLogger": {
+    "$resolver": "logger",
+    "field": "name"
+  },
+  "targetClass": {
+    "$resolver": "source",
+    "field": "className"
+  },
+  "targetMethod": {
+    "$resolver": "source",
+    "field": "methodName"
+  },
+  "targetLine": {
+    "$resolver": "source",
+    "field": "lineNumber"
+  },
+  "threadName": {
+    "$resolver": "thread",
+    "field": "name"
+  },
+  "logKey": {
+    "$resolver": "map",
+    "key": "logKey"
+  }
+}
+

@@ -21,6 +21,10 @@ import java.util.Map;
  */
 @Slf4j
 public class UpdateBatchMethod extends AbstractMethod {
+    public UpdateBatchMethod(String methodName) {
+        super(methodName);
+    }
+
     private String getCol(List<TableFieldInfo> fieldList, String attrName) {
         Iterator var3 = fieldList.iterator();
 

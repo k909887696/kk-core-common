@@ -22,7 +22,7 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.stereotype.Component;
 import org.slf4j.MDC;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 
 

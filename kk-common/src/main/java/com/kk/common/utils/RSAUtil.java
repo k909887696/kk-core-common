@@ -18,6 +18,9 @@ import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Date;
 
+/**
+ * RSA 加密工具类
+ */
 public class RSAUtil {
     // 加密数据和秘钥的编码方式
     public static final String UTF_8 = "UTF-8";

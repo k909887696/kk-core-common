@@ -1,11 +1,17 @@
 package com.kk.common.web.handler;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
 import com.kk.common.exception.BusinessException;
 import com.kk.common.constant.ResponseCode;
 import com.kk.common.trace.TraceData;
+import com.kk.common.utils.CommonUtil;
+import com.kk.common.utils.LogUtil;
 import com.kk.common.web.model.ApiResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,7 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 
@@ -27,7 +33,7 @@ import java.util.List;
 
 @RestControllerAdvice
 public class MyExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(MyExceptionHandler.class);
+    private static final Logger logger = LogManager.getLogger(MyExceptionHandler.class);
 
     /**
      * 系统异常拦截
@@ -37,16 +43,25 @@ public class MyExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ApiResult globalException(HttpServletRequest request, Exception ex)
+    public ApiResult<?> globalException(HttpServletRequest request, Exception ex)
     {
-        logger.error("{}|{}","globalException;Message;"+ TraceData.traceId.get(),ex.getMessage());
-        logger.error("{}|{}","globalException;StackTrace;"+ TraceData.traceId.get(),ex.getStackTrace());
-        ApiResult result;
+        String methodName =  CommonUtil.getRequestUrlMethod(request.getRequestURL().toString());
+        String logKey  = "globalException;"+methodName;
+
+        LogUtil.error(logger,logKey,"{}|{}|{} ","globalException", ex.getMessage(),ex.getStackTrace());
+        ApiResult<?> result;
         if (ex instanceof BusinessException) {
-            BusinessException b = (BusinessException)ex;
-            result = new ApiResult(b.getCode(), b.getMessage());
-        } else {
-            result = new ApiResult(ResponseCode.SYSTEM_EXCEPTION.getCode(),
+            BusinessException be = (BusinessException)ex;
+            result = new ApiResult<>(be.getCode(), be.getMessage());
+        } else  if (ex instanceof NotLoginException) {
+            NotLoginException be = (NotLoginException )ex;
+            result = new ApiResult<>(ResponseCode.LOGIN_OUT.getCode(), ResponseCode.LOGIN_OUT.getDesc());
+        }else  if (ex instanceof NotPermissionException) {
+            NotPermissionException be = (NotPermissionException )ex;
+            result = new ApiResult<>(ResponseCode.NO_PERMISSION_OPERATION.getCode(), ResponseCode.NO_PERMISSION_OPERATION.getDesc());
+        }
+        else {
+            result = new ApiResult<>(ResponseCode.SYSTEM_EXCEPTION.getCode(),
                     ResponseCode.SYSTEM_EXCEPTION.getDesc()+":"+ex.getMessage());
         }
 
@@ -62,8 +77,9 @@ public class MyExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResult validationMethodArgumentNotValidException(MethodArgumentNotValidException exception){
-
+    public ApiResult<?> argNVException(HttpServletRequest request,MethodArgumentNotValidException exception){
+        String methodName =  CommonUtil.getRequestUrlMethod(request.getRequestURL().toString());
+        String logKey  = "argNVException;"+methodName;
         BindingResult result = exception.getBindingResult();
         StringBuilder message = new StringBuilder();
           if (result.hasErrors()) {
@@ -72,12 +88,12 @@ public class MyExceptionHandler {
                   FieldError fieldError = (FieldError) p;
 
                   message.append(fieldError.getDefaultMessage());
-                  logger.error("{}|{}","validationMethodArgumentNotValidException;Data check failure","object{"+fieldError.getObjectName()+"},field{"+fieldError.getField()+
+                  LogUtil.error(logger,logKey,"{}|{} ","argNVException:Data check failure","object{"+fieldError.getObjectName()+"},field{"+fieldError.getField()+
                           "},errorMessage{"+fieldError.getDefaultMessage()+"}");
               });
           }
-        logger.error("{}|{}","validationMethodArgumentNotValidException;Message",exception.getMessage());
-        return new ApiResult(ResponseCode.BUSINESS_PARAMETER_EXCEPTION.getCode(),message.toString());
+        LogUtil.error(logger,logKey,"{}|{}|{} ","argNVException",exception.getMessage(),exception.getStackTrace());
+        return new ApiResult<>(ResponseCode.BUSINESS_PARAMETER_EXCEPTION.getCode(),message.toString());
     }
 
     /**
@@ -88,9 +104,11 @@ public class MyExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(HttpMessageConversionException.class)
-    public ApiResult parameterTypeConversionException(HttpMessageConversionException exception){
-        logger.error("{}|{}","parameterTypeConversionException",exception.getCause().getLocalizedMessage());
-        return  new ApiResult(ResponseCode.INVALID_PARAMETER.getCode(),ResponseCode.INVALID_PARAMETER.getDesc()+":"+exception.getCause().getLocalizedMessage());
+    public ApiResult<?> msgConversionException(HttpServletRequest request,HttpMessageConversionException exception){
+        String methodName =  CommonUtil.getRequestUrlMethod(request.getRequestURL().toString());
+        String logKey  = "msgConversionException;"+methodName;
+        LogUtil.error(logger,logKey,"{}|{}|{} ","msgConversionException",exception.getMessage(),exception.getStackTrace());
+        return  new ApiResult<>(ResponseCode.INVALID_PARAMETER.getCode(),ResponseCode.INVALID_PARAMETER.getDesc()+":"+exception.getMessage());
     }
 
 }
