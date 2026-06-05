@@ -54,6 +54,7 @@ public class EsClientFactory {
      * 动态添加客户端（直接传入 RestHighLevelClient）
      */
     public static void addClient(String name, RestHighLevelClient client) {
+        if(client ==null) return ;
         CLIENT_MAP.put(name, client);
     }
 

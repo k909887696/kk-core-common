@@ -8,11 +8,13 @@ package com.kk.common.redis;
  */
 import org.ehcache.xml.model.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 
 @Component
+@ConditionalOnProperty(prefix = "business-redis", name = "nodes")
 public class BusinessCacheUtil {
 
     @Autowired

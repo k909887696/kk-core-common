@@ -1,6 +1,7 @@
 package com.kk.common.redis;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Map;
 @Data
 @Component
 @ConfigurationProperties(prefix = "business-redis")
+@ConditionalOnProperty(prefix = "business-redis", name = "nodes")
 public class BusinessRedisProperties {
     // 对应 yml 中的 business-redis.nodes
     private Map<String, NodeConfig> nodes;

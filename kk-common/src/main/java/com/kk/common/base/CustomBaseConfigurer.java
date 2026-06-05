@@ -12,6 +12,7 @@ import com.kk.common.es.BusinessEsProperties;
 import com.kk.common.redis.AuthRedisProperties;
 import com.kk.common.utils.MapperDateConverter;
 import com.kk.common.utils.MapperUtils;
+import com.kk.common.utils.StringOperationUtil;
 import com.kk.common.web.intercepter.ParameterInterceptor;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -32,6 +33,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -81,7 +83,7 @@ public class CustomBaseConfigurer  {
     @Bean(name = "loggingStoreClient")
     public RestHighLevelClient loggingStoreClient() {
         if (baseConfing.getLoggingStoreHost() == null || baseConfing.getLoggingStoreHost().isEmpty()) {
-            throw new IllegalStateException("logging.store.host is required for log ES client");
+            return  null;
         }
 
         HttpHost httpHost =  HttpHost.create(baseConfing.getLoggingStoreHost());;
@@ -164,7 +166,10 @@ public class CustomBaseConfigurer  {
      * @return
      */
     @Bean(name = "authRedisTemplate")
+    @ConditionalOnProperty(prefix = "auth-redis", name = "host")
     public RedisTemplate<String, Object> authRedisTemplate(AuthRedisProperties authRedisProperties) {
+        if(authRedisProperties==null || StringOperationUtil.isEmpty(authRedisProperties.getHost()))
+            return null;
         // 1. 配置单机 Redis 连接信息
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(authRedisProperties.getHost());

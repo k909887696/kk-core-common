@@ -1,8 +1,10 @@
 package com.kk.common.redis;
 
 
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
@@ -15,11 +17,12 @@ import java.util.concurrent.TimeUnit;
 
 
 @Component
+@ConditionalOnProperty(prefix = "auth-redis", name = "host")
 public class AuthRedisUtil {
 
     // 精准注入我们刚刚独立初始化的 authRedisTemplate
     @Autowired
-    @Qualifier("authRedisTemplate")
+    @Resource(name="authRedisTemplate")
     private RedisTemplate<String, Object> authRedisTemplate;
 
     private static final String TOKEN_PREFIX = "auth:token:";

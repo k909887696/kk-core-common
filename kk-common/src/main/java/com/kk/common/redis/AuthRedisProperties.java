@@ -1,6 +1,7 @@
 package com.kk.common.redis;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "auth-redis")
+@ConditionalOnProperty(prefix = "auth-redis", name = "host")
 public class AuthRedisProperties {
     /**
      * 服务地址  127.0.0.1

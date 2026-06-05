@@ -3,6 +3,8 @@ package com.kk.common.utils;
 import com.kk.common.constant.SystemKey;
 import com.kk.common.es.EsTemplate;
 import com.kk.common.trace.TraceData;
+import com.xxl.job.core.context.XxlJobHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
@@ -29,8 +31,11 @@ public class LogUtil {
      */
     public static void log(Logger logger, String logKey,String level, String message,  Object... params) {
         String seqNo = TraceData.traceId.get();
-       // Object[] paramsList = new Object[params.length + 1];
-      //  System.arraycopy(params, 0, paramsList, 0, params.length);
+       if(StringUtils.isBlank(seqNo))//内部接口、或者调度等没有请求链路时，生成一个全局唯一ID
+       {
+           seqNo = CommonUtil.generateUUID();
+           TraceData.traceId.set(seqNo);
+       }
         logKey = seqNo + ";" + logKey;
         //paramsList[params.length] = logKey;
         // ========== 关键修改：使用 Log4j2 内置格式化 ==========
@@ -72,5 +77,19 @@ public class LogUtil {
         log(logger, logKey,"error", message,  params);
     }
 
-
+    /**
+     * 整合xxl-job 与 log4j
+     * @param appendLogPattern
+     * @param appendLogArguments
+     */
+    public static void logInfoXxlAnd4j(Logger logger,String logkey,String appendLogPattern, Object... appendLogArguments)
+    {
+        XxlJobHelper.log(appendLogPattern,appendLogArguments);
+        LogUtil.info(logger,logkey,appendLogPattern,appendLogArguments);
+    }
+    public static void logErrorXxlAnd4j(Logger logger,String logkey,String appendLogPattern, Object... appendLogArguments)
+    {
+        XxlJobHelper.log(appendLogPattern,appendLogArguments);
+        LogUtil.error(logger,logkey,appendLogPattern,appendLogArguments);
+    }
 }

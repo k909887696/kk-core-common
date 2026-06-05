@@ -28,6 +28,7 @@
     <elasticsearch-client.version>7.10.1</elasticsearch-client.version>
     <lombok.version>1.18.30</lombok.version>
     <sa-token.version>1.37.0</sa-token.version>
+    <xxl-job-core.version>2.3.0</xxl-job-core.version>
   </properties>
 
   <dependencies>
@@ -202,6 +203,13 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-pool2</artifactId>
+    </dependency>
+
+    <!-- xxl-job-core -->
+    <dependency>
+      <groupId>com.xuxueli</groupId>
+      <artifactId>xxl-job-core</artifactId>
+      <version>${xxl-job-core.version}</version>
     </dependency>
   </dependencies>
 

@@ -1,5 +1,6 @@
 package com.kk.common.redis;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * date: 2026-05-27
  */
 @Component
+@ConditionalOnProperty(prefix = "business-redis", name = "nodes")
 public class BusinessRedisFactory {
 
     @Autowired
