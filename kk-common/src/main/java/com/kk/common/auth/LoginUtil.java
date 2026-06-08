@@ -2,8 +2,11 @@ package com.kk.common.auth;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.kk.common.base.model.LoginPermissionResVo;
+import com.kk.common.base.model.LoginPermissionVo;
 import com.kk.common.constant.SystemKey;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -28,6 +31,12 @@ public class LoginUtil {
         return loginInfo;
     }
 
+    /**
+     * 登出
+     */
+    public static void logout() {
+        StpUtil.logout();
+    }
     /**
      * 获取登录用户信息
      * @return
@@ -58,6 +67,23 @@ public class LoginUtil {
      */
     public static void setLoginUserJurInfo(LoginUserJurInfo loginUserJurInfo) {
         StpUtil.getTokenSession().set(SystemKey.LoginUserJurisdictionCacheKey, loginUserJurInfo);
+    }
+
+    public static LoginPermissionResVo validPermission(LoginPermissionVo loginPermissionVo) {
+        LoginPermissionResVo loginPermissionResVo = new LoginPermissionResVo();
+        loginPermissionResVo.setPermissionList(new ArrayList<>());
+        LoginUserJurInfo loginUserJurInfo= getLoginUserJurInfo();
+        if(loginPermissionVo!=null && loginPermissionVo.getPermissionList()!=null
+                && loginUserJurInfo!=null &&loginUserJurInfo.getPermissionList()!=null
+        )
+        {
+            for(String permission : loginPermissionVo.getPermissionList()) {
+                if(loginUserJurInfo.getPermissionList().contains(permission)) {
+                    loginPermissionResVo.getPermissionList().add(permission);
+                }
+            }
+        }
+        return loginPermissionResVo;
     }
 
     /**
