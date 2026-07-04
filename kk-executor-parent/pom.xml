@@ -154,7 +154,7 @@
     </repositories>
 
     <distributionManagement>
-        <repository>
+        <!--<repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/repository/releases/</url>
@@ -163,7 +163,18 @@
             <id>nexus-snapshots</id>
             <name>Local Nexus Repository</name>
             <url>http://8.134.61.236:8081/repository/maven-snapshots/</url>
-            <!--<url>http://nexus.dev.com/repository/maven-snapshots/</url>-->
+            &lt;!&ndash;<url>http://nexus.dev.com/repository/maven-snapshots/</url>&ndash;&gt;
+        </snapshotRepository>-->
+
+        <repository>
+            <id>nexus-releases</id>
+            <name>Local Nexus Repository</name>
+            <url>http://127.0.0.1:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Local Nexus Repository</name>
+            <url>http://127.0.0.1:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <build>
