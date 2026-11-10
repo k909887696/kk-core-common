@@ -122,7 +122,7 @@
     </repositories>
 
     <distributionManagement>
-       <!-- <repository>
+      <!--  <repository>
             <id>maven-releases</id>
             <name>Releases Repository</name>
             <url>http://192.168.30.115:8081/repository/release-local</url>
@@ -132,7 +132,7 @@
             <name>Snapshots Repository</name>
             <url>http://192.168.30.115:8081/repository/snapshot-local</url>
         </snapshotRepository>-->
-        <repository>
+  <!--      <repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
             <url>http://127.0.0.1:8081/repository/maven-releases/</url>
@@ -141,8 +141,8 @@
             <id>nexus-snapshots</id>
             <name>Local Nexus Repository</name>
             <url>http://127.0.0.1:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-        <!--<repository>
+        </snapshotRepository>-->
+        <repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/content/repositories/releases/</url>
@@ -151,7 +151,7 @@
             <id>nexus-snapshots</id>
             <name>Local Nexus Repository</name>
             <url>http://nexus.dev.com/content/repositories/snapshots/</url>
-        </snapshotRepository>-->
+        </snapshotRepository>
     </distributionManagement>
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
