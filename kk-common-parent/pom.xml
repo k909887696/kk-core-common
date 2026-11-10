@@ -122,7 +122,7 @@
     </repositories>
 
     <distributionManagement>
-        <repository>
+       <!-- <repository>
             <id>maven-releases</id>
             <name>Releases Repository</name>
             <url>http://192.168.30.115:8081/repository/release-local</url>
@@ -131,17 +131,17 @@
             <id>maven-snapshots</id>
             <name>Snapshots Repository</name>
             <url>http://192.168.30.115:8081/repository/snapshot-local</url>
-        </snapshotRepository>
-       <!-- <repository>
+        </snapshotRepository>-->
+        <repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
-            <url>http://nexus.dev.com/repository/releases/</url>
+            <url>http://127.0.0.1:8081/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <name>Local Nexus Repository</name>
-            <url>http://nexus.dev.com/repository/maven-snapshots/</url>
-        </snapshotRepository>-->
+            <url>http://127.0.0.1:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
         <!--<repository>
             <id>nexus-releases</id>
             <name>Local Nexus Repository</name>
