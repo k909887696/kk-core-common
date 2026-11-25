@@ -65,8 +65,21 @@ public class LogUtil {
     public static void info(Logger logger,String logKey, String message, final Object... params) {
         log(logger, logKey,"info", message,  params);
     }
+
     /**
-     * 输出带 logKey 字段的日志
+     * 输出带 logKey 字段的警告日志
+     *
+     * @param logger  目标 Logger
+     * @param message 日志正文
+     * @param logKey 关键字串，格式：关键字1;关键字2;关键字3
+     * @param params  其他自定义字段（可选）
+     */
+    public static void warn(Logger logger,String logKey, String message, final Object... params) {
+        log(logger, logKey,"warn", message,  params);
+    }
+
+    /**
+     * 输出带 logKey 字段的错误日志
      *
      * @param logger  目标 Logger
      * @param message 日志正文

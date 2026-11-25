@@ -14,7 +14,7 @@ import org.apache.logging.log4j.message.Message;
  * date: 2026-05-14
  */
 @Plugin(name = "CustomMsgPatternConverter", category = "Converter")
-@ConverterKeys({"cmsg"})
+@ConverterKeys({"wg"})
 public class CustomMsgPatternConverter extends LogEventPatternConverter {
 
     protected CustomMsgPatternConverter(String name, String style) {
@@ -23,7 +23,7 @@ public class CustomMsgPatternConverter extends LogEventPatternConverter {
 
     @PluginFactory
     public static CustomMsgPatternConverter newInstance() {
-        return new CustomMsgPatternConverter("cmsg", "cmsg");
+        return new CustomMsgPatternConverter("wg", "wg");
     }
 
     @Override

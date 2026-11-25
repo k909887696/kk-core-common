@@ -1,11 +1,13 @@
 package com.kk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.kk.common.utils.*;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,41 @@ import java.util.Map;
  */
 public class AppTest 
 {
+    @Test
+    public void testRetryTimeMapping() {
+        int[] expectedIntervals = {10, 20, 30, 40, 50, 50, 100, 100, 200, 200, 600, 600, 600};
+        for (int retryCount = 1; retryCount <= expectedIntervals.length; retryCount++) {
+            assertEquals("重试次数：" + retryCount,
+                    expectedIntervals[retryCount - 1], RetryTimeUtil.mqRetryTime(retryCount));
+        }
+    }
+
+    @Test
+    public void testRetryTimeDefault() {
+        int[] retryCounts = {Integer.MIN_VALUE, -1, 0, 14, Integer.MAX_VALUE};
+        for (int retryCount : retryCounts) {
+            assertEquals(1200, RetryTimeUtil.mqRetryTime(retryCount));
+        }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testRetryTimeNull() {
+        RetryTimeUtil.mqRetryTime(null);
+    }
+
+    @Test
+    public void testDagRetryNextRunTimeUsesDateUtil() {
+        int[] retryCounts = {0, 1, 2, 8, 20};
+        int[] expectedSeconds = {10, 10, 20, 1280, 1800};
+        for (int i = 0; i < retryCounts.length; i++) {
+            Date earliest = DateUtil.addDate(new Date(), Calendar.SECOND, expectedSeconds[i]);
+            Date actual = DagRetryIntervalUtil.calculateNextRunTime(retryCounts[i]);
+            Date latest = DateUtil.addDate(new Date(), Calendar.SECOND, expectedSeconds[i]);
+            assertTrue("下次执行时间不能早于预期间隔", !actual.before(earliest));
+            assertTrue("下次执行时间不能晚于预期间隔", !actual.after(latest));
+        }
+    }
+
     /**
      * Rigorous Test :-)
      */

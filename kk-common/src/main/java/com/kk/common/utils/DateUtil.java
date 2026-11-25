@@ -33,6 +33,18 @@ public class DateUtil {
     //public static final String PATTERN_WEB_FRONT = "[0-9]{4}[/][0-9]{1,2}[/][0-9]{1,2}[ ][0-9]{1,2}[:][0-9]{1,2}";
     public static final String PATTERN_WEB_FRONT = "[0-9]{4}[/][0-9]{1,2}[/][0-9]{1,2}";
 
+    /**
+     * 日期参数去掉"-"分隔符，空值原样返回
+     * @param date 日期字符串（yyyy-MM-dd或yyyyMMdd）
+     * @return yyyyMMdd格式日期
+     */
+    public static String formatDateParam(String date) {
+        if (date == null || date.trim().isEmpty()) {
+            return date;
+        }
+        return date.replace("-", "");
+    }
+
 
     /**
      *  修改字符串中的日期格式，兼容 yyyy/MM/dd
